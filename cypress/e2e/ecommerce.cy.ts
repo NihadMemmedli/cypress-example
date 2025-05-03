@@ -62,4 +62,27 @@ describe('E-commerce Auth & Order Flow', () => {
       page.addToCart(1);
     });
   });
+
+  it('removes an item and updates the cart total', () => {
+    cy.fixture('happyPath').then(({ user, products }) => {
+      // login and load products
+      page.visit();
+      page.login(user);
+      page.verifyProductListLoaded();
+
+      // add both products and verify total
+      page.addSpecificProductsToCart(products);
+      page.verifyCartTotalMatchesProducts(products);
+
+      // remove the first item via 'REMOVE' button
+      cy.contains('button', 'REMOVE').first().click();
+
+      // ensure the first product is no longer in the cart UI
+      cy.get('.cart-items').should('not.contain', products[0]);
+
+      // verify the cart total now equals the remaining product price
+      const remaining = products.slice(1);
+      page.verifyCartTotalMatchesProducts(remaining);
+    });
+  });
 }); 
