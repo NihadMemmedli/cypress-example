@@ -23,4 +23,14 @@ jobs:
         run: docker build -t cypress-example .
 
       - name: Run Cypress tests in Docker
-        run: docker run --rm cypress-example 
+        run: |
+          mkdir -p cypress/results
+          docker run --rm \
+            -v ${{ github.workspace }}/cypress/results:/e2e/cypress/results \
+            cypress-example
+
+      - name: Upload JUnit test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: junit-results
+          path: cypress/results/*.xml 

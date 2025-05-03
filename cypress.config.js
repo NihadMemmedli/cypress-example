@@ -2,8 +2,14 @@ const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
   e2e: {
-    supportFile: 'cypress/support/e2e.ts',
+    supportFile: 'cypress/support/index.ts',
     baseUrl: 'https://qa-practice.netlify.app',
+    specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
+    reporter: 'junit',
+    reporterOptions: {
+      mochaFile: 'cypress/results/junit-[hash].xml',
+      toConsole: false
+    },
     setupNodeEvents(on, config) {
       // implement node event listeners here
       on('before:browser:launch', (browser, launchOptions) => {
@@ -31,7 +37,6 @@ module.exports = defineConfig({
     },
     video: false,
     screenshotOnRunFailure: true,
-    specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
     chromeWebSecurity: false,
     waitForAnimations: true,
     animationDistanceThreshold: 20,
