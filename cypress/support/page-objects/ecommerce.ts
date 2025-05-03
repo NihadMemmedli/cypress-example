@@ -95,40 +95,6 @@ class EcommercePage extends BasePage {
   }
 
   /**
-   * Fill shipping form with address details
-   * @param {Object|string} addressOrPhone - Address object or phone number
-   * @param {string} [street] - Street address (not needed if address object provided)
-   * @param {string} [city] - City (not needed if address object provided)
-   * @param {string} [country] - Country (not needed if address object provided)
-   * @returns {EcommercePage} - Returns page object for chaining
-   */
-  fillShippingForm(addressOrPhone: object | string, street: string, city: string, country: string): EcommercePage {
-    if (typeof addressOrPhone === 'object') {
-      // Address object
-      this.shippingForm.fillForm(addressOrPhone);
-    } else {
-      // Individual parameters
-      this.shippingForm.fillForm({
-        phone: addressOrPhone,
-        street,
-        city,
-        country
-      });
-    }
-
-    return this;
-  }
-
-  /**
-   * Submit shipping form
-   * @returns {EcommercePage} - Returns page object for chaining
-   */
-  submitShippingForm(): EcommercePage {
-    this.shippingForm.submit();
-    return this;
-  }
-
-  /**
    * Complete shipping form with address
    * @param {Object} address - Shipping address
    * @returns {EcommercePage} - This page for chaining
@@ -139,22 +105,6 @@ class EcommercePage extends BasePage {
     this.shippingForm.fillAndSubmit(address);
 
     return this;
-  }
-
-  /**
-   * Complete the full order flow
-   * @param {Object} options - Order options
-   * @param {number|Array} [options.products] - Products to add
-   * @param {Object} [options.address] - Shipping address
-   * @returns {EcommercePage} - Returns page object for chaining
-   */
-  completeOrder(options: any = {}): EcommercePage {
-    const { products = 2, address } = options;
-
-    return this
-      .addToCart(products)
-      .proceedToCheckout()
-      .completeShipping(address);
   }
 
   /**
@@ -174,16 +124,6 @@ class EcommercePage extends BasePage {
   verifyShippingForm(): EcommercePage {
     this.shippingForm.verifyFormFields();
     return this;
-  }
-
-  /**
-   * Login with admin credentials
-   * @returns {EcommercePage} - Returns page object for chaining
-   */
-  loginAsAdmin(): EcommercePage {
-    const admin = UserGenerator.admin();
-    cy.log(`Login as admin: ${admin.email}`);
-    return this.visit().login(admin);
   }
 
   /**
@@ -221,32 +161,6 @@ class EcommercePage extends BasePage {
     return this;
   }
 
-  /**
-   * Process checkout with US address
-   * @returns {EcommercePage} - Returns page object for chaining
-   */
-  checkoutWithUSAddress(): EcommercePage {
-    const address = AddressGenerator.us();
-    cy.log(`Checkout with US address: ${address.street}, ${address.city}, ${address.state}`);
-    return this
-      .proceedToCheckout()
-      .completeShipping(address);
-  }
-
-  /**
-   * Complete happy path flow with all steps
-   * @returns {EcommercePage} - Returns page object for chaining
-   */
-  completeHappyPathFlow(): EcommercePage {
-    cy.log('Running complete happy path flow');
-    this.loginAsAdmin();
-    this.addRandomProductsToCart(3);
-    this.checkoutWithUSAddress();
-    this.verifyOrderSuccess(); // Verify success after checkout
-    this.logout();
-    return this;
-  }
-
   // --------------------------------------------------------------------------
   // Verification methods (separate assertions from actions)
   // --------------------------------------------------------------------------
@@ -264,15 +178,6 @@ class EcommercePage extends BasePage {
    */
   verifyShippingFormVisible() {
     this.shippingForm.getForm().should('be.visible');
-    return this;
-  }
-
-  /**
-   * Verify that the login error message is displayed
-   * @param {RegExp} messageRegex
-   */
-  verifyLoginError(messageRegex: RegExp) {
-    this.loginForm.verifyErrorMessage(messageRegex);
     return this;
   }
 

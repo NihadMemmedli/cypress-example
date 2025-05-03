@@ -19,18 +19,6 @@ class BasePage {
     return this;
   }
 
-  waitForUrl(urlFragment, options = {}) {
-    cy.url().should('include', urlFragment, options);
-    return this;
-  }
-
-  refresh() {
-    cy.log('Refreshing page');
-    cy.reload();
-    cy.get('body').should('be.visible');
-    return this;
-  }
-
   elementExists(selector) {
     return cy.get('body').then($body => $body.find(selector).length > 0);
   }

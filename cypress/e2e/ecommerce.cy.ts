@@ -34,8 +34,10 @@ describe('E-commerce Auth & Order Flow', () => {
   });
 
   it('validates form fields with empty data', () => {
-    page.loginAsAdmin();
-    cy.fixture('happyPath').then(({ shipping }) => {
+    cy.fixture('happyPath').then(({  user, products, shipping  }) => {
+      page.visit();
+      page.login(user);
+      page.verifyProductListLoaded();
       page.addRandomProductsToCart(1)
           .proceedToCheckout();
       page.shippingForm.getSubmitOrderButton().click();
