@@ -33,10 +33,16 @@ class LoginFormComponent {
     return this;
   }
 
-  fillForm(email, password) {
-    cy.log(`Filling login form with email: ${email}`);
-    this.getEmailField().clear().type(email);
-    this.getPasswordField().clear().type(password);
+  fillForm(email?: string, password?: string) {
+    cy.log(`Filling login form with email: ${email || '<empty>'}`);
+    this.getEmailField().clear();
+    if (email) {
+      this.getEmailField().type(email);
+    }
+    this.getPasswordField().clear();
+    if (password) {
+      this.getPasswordField().type(password);
+    }
     return this;
   }
 
@@ -79,3 +85,8 @@ class LoginFormComponent {
 }
 
 export default LoginFormComponent;
+
+/**
+ * Expected login error message regex for bad credentials
+ */
+export const BAD_CREDENTIALS_MSG = /Bad credentials! Please try again! Make sure that you've registered\./i;
