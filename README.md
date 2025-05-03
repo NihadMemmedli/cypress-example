@@ -39,15 +39,27 @@ cypress/
 ├── fixtures/
 │   ├── sample.txt        # Sample file for upload testing
 │   └── example.json      # Example fixture data
-├── support/
-│   ├── commands.ts       # Enhanced custom commands with retry logic
-│   ├── e2e.ts            # Support file with configurations
-│   ├── selectors.ts      # Centralized selector repository
-│   ├── utils.ts          # Utility functions for testing
-│   ├── types.ts          # Shared TypeScript interfaces (User, ShippingAddress)
-│   └── page-objects/     # Enhanced Page Object implementation
-│       ├── ecommerce.ts  # E-commerce page objects with chainable methods
-│       └── file-upload.ts # File upload page objects
+├── support/               # All support code for the test framework
+│   ├── commands/          # Custom Cypress commands
+│   │   └── index.ts
+│   ├── constants/         # Shared runtime constants (error messages, selectors overrides)
+│   │   └── index.ts
+│   ├── data/              # Test data generators
+│   │   └── index.ts
+│   ├── selectors/         # Centralized selector repository
+│   │   └── index.ts
+│   ├── types/             # Shared TypeScript interfaces and types
+│   │   └── index.ts
+│   ├── utils/             # Utility helper functions
+│   │   └── index.ts
+│   ├── page-objects/      # Page Object Model classes and components
+│   │   ├── base.page.ts
+│   │   ├── ecommerce.ts
+│   │   └── components/
+│   │       ├── login-form.component.ts
+│   │       ├── product-list.component.ts
+│   │       └── shipping-form.component.ts
+│   └── e2e.ts             # Support entry point (imports all of the above)
 └── downloads/            # Downloaded files during testing
 ```
 
