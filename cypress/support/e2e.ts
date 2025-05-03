@@ -5,7 +5,7 @@ import './selectors';
 import './utils';
 
 // Import data generators
-import './data-generators';
+import './data';
 
 // Import page objects and components
 import './page-objects/base.page';

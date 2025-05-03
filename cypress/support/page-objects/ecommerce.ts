@@ -4,8 +4,8 @@ import ProductListComponent from './components/product-list.component';
 import ShippingFormComponent from './components/shipping-form.component';
 import CheckoutComponent from './components/checkout.component';
 import LoginFormComponent from './components/login-form.component';
-import { UserGenerator } from '../data-generators';
 import type { User, ShippingAddress } from '../types';
+import { UserGenerator } from '../data';
 
 /**
  * Enhanced E-commerce page object with component-based approach
