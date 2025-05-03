@@ -1,0 +1,20 @@
+{
+  "user": {
+    "email": "admin@admin.com",
+    "password": "admin123"
+  },
+  "products": [
+    "Apple iPhone 12, 128GB, Black",
+    "Huawei Mate 20 Lite, 64GB, Black",
+    "Samsung Galaxy A32, 128GB, White",
+    "Apple iPhone 13, 128GB, Blue",
+    "Nokia 105, Black"
+  ],
+  "shipping": {
+    "phone": "111-222-3333",
+    "street": "123 Cypress St",
+    "city": "Testville",
+    "postalCode": "12345",
+    "country": "United States of America"
+  }
+} 

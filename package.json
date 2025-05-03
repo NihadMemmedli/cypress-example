@@ -1,0 +1,40 @@
+{
+  "name": "cypress-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run --browser chrome --headless",
+    "test": "cypress run",
+    "testHeaded": "npx cypress run --browser chrome",
+    "lint": "eslint \"cypress/**/*.{js,ts,tsx}\" --max-warnings=0",
+    "format": "prettier --write \"cypress/**/*.{js,ts,tsx,json,css,md}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NihadMemmedli/cypress-example.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NihadMemmedli/cypress-example/issues"
+  },
+  "homepage": "https://github.com/NihadMemmedli/cypress-example#readme",
+  "description": "",
+  "devDependencies": {
+    "@faker-js/faker": "^9.7.0",
+    "@types/chai": "^5.2.1",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.15.3",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "cypress": "^14.3.2",
+    "cypress-file-upload": "^5.0.8",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-cypress": "^2.15.2",
+    "prettier": "^2.8.8",
+    "typescript": "^5.8.3"
+  }
+}

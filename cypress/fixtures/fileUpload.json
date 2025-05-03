@@ -1,0 +1,11 @@
+{
+  "valid": {
+    "fileName": "sample.txt",
+    "fileType": "text/plain",
+    "fileContent": "Test file content"
+  },
+  "large": {
+    "fileName": "large-file.txt",
+    "fileType": "text/plain"
+  }
+} 
