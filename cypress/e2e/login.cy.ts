@@ -15,21 +15,21 @@ describe('Login Negative Scenarios', () => {
 
   it('errors when both fields are empty', () => {
     loginForm.submit();
-    loginForm.verifyErrorMessage(/required/i);
+    loginForm.verifyErrorMessage(/Bad credentials! Please try again! Make sure that you've registered./i);
   });
 
   it('errors on invalid email format', () => {
     loginForm.fillForm('not-an-email', 'somepass').submit();
-    loginForm.verifyErrorMessage(/valid email/i);
+    loginForm.validateEmailPopup(/missing an '@'/i);
   });
 
   it('errors on missing password', () => {
-    loginForm.fillForm('admin@admin.com', '').submit();
-    loginForm.verifyErrorMessage(/password required/i);
+    loginForm.fillForm('admin@admin.com', ' ').submit();
+    loginForm.verifyErrorMessage(/Bad credentials! Please try again! Make sure that you've registered./i);
   });
 
   it('errors on wrong credentials', () => {
     loginForm.fillForm('admin@admin.com', 'wrongpassword').submit();
-    loginForm.verifyErrorMessage(/Bad credentials|Please try again|registered/i);
+    loginForm.verifyErrorMessage(/Bad credentials! Please try again! Make sure that you've registered./i);
   });
 }); 

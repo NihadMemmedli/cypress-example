@@ -65,6 +65,17 @@ class LoginFormComponent {
 
     return this;
   }
+
+  /**
+   * Validate the built-in HTML5 validation popup for the email field
+   * @param expected - RegExp to match the input.validationMessage
+   */
+  validateEmailPopup(expected: RegExp): this {
+    this.getEmailField()
+      .invoke('prop', 'validationMessage')
+      .should('match', expected);
+    return this;
+  }
 }
 
 export default LoginFormComponent;
