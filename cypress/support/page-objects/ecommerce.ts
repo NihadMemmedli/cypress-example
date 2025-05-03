@@ -95,6 +95,15 @@ class EcommercePage extends BasePage {
   }
 
   /**
+   * Submit the shipping form
+   * @returns {this}
+   */
+  submitShippingForm(): this {
+    this.shippingForm.submit();
+    return this;
+  }
+
+  /**
    * Complete shipping form with address
    * @param {Object} address - Shipping address
    * @returns {EcommercePage} - This page for chaining
@@ -136,6 +145,16 @@ class EcommercePage extends BasePage {
     this.visit().login(invalidUser);
     this.loginForm.verifyErrorMessage(/Bad credentials|Please try again|registered/i);
     return this;
+  }
+
+  /**
+   * Login as admin user using the default credentials and visit page
+   * @returns EcommercePage for chaining
+   */
+  loginAsAdmin(): EcommercePage {
+    const admin = UserGenerator.admin();
+    cy.log(`Login as admin: ${admin.email}`);
+    return this.visit().login(admin);
   }
 
   /**
