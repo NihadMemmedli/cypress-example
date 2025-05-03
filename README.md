@@ -1,5 +1,7 @@
 # Cypress TypeScript E2E Framework
 
+![CI](https://github.com/NihadMemmedli/cypress-example/actions/workflows/e2e.yml/badge.svg?branch=main)
+
 A fully TypeScript-based end-to-end testing framework built with Cypress. Includes a robust Page Object Model, centralized support utilities, and best-practice workflows for UI testing.
 
 ## Table of Contents
@@ -55,31 +57,24 @@ npm -v
 
 ## Setup & Installation
 
-1. **Clone the repo**
-
+1. Clone the repo:
    ```bash
-git clone https://github.com/NihadMemmedli/cypress-example.git
-cd cypress-example
+   git clone https://github.com/NihadMemmedli/cypress-example.git
+   cd cypress-example
    ```
-
-2. **Install dependencies**
-
+2. Install dependencies:
    ```bash
-npm install
-# or
-# yarn install
+   npm install
+   # or
+   yarn install
    ```
-
-3. **Open Cypress** (interactive mode)
-
+3. Open Cypress (interactive mode):
    ```bash
-npm run cy:open
+   npm run cy:open
    ```
-
-4. **Run Tests Headlessly**
-
+4. Run tests headlessly:
    ```bash
-npm run cy:run
+   npm run cy:run
    ```
 
 ---
