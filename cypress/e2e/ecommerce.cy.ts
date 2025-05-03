@@ -44,7 +44,7 @@ describe('E-commerce Auth & Order Flow', () => {
   });
 
   it('prevents adding the same product twice', () => {
-    cy.fixture('happyPath').then(({ user, products }) => {
+    cy.fixture('happyPath').then(({ user }) => {
       // login and load products
       page.visit();
       page.login(user);

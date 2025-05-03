@@ -21,11 +21,8 @@ class LoginFormComponent {
     return cy.get(LOGIN.ERROR_MESSAGE);
   }
 
-  /**
-   * Wait until login form is fully visible and ready
-   * @returns {LoginFormComponent}
-   */
-  waitForReady() {
+  /** Wait until login form is fully visible and ready */
+  waitForReady(): this {
     cy.log('Waiting for login form to be ready');
     this.getEmailField().should('be.visible');
     this.getPasswordField().should('be.visible');
@@ -33,39 +30,40 @@ class LoginFormComponent {
     return this;
   }
 
-  fillForm(email?: string, password?: string) {
+  /** Fill login form with optional email/password */
+  fillForm(email: string = '', password: string = ''): this {
     cy.log(`Filling login form with email: ${email || '<empty>'}`);
     this.getEmailField().clear();
-    if (email) {
-      this.getEmailField().type(email);
-    }
+    if (email) this.getEmailField().type(email);
     this.getPasswordField().clear();
-    if (password) {
-      this.getPasswordField().type(password);
-    }
+    if (password) this.getPasswordField().type(password);
     return this;
   }
 
-  submit() {
+  /** Submit the login form */
+  submit(): this {
     cy.log('Submitting login form');
-    cy.safeClick(this.getSubmitButton())
+    cy.safeClick(this.getSubmitButton());
     return this;
   }
 
-  login(email, password) {
+  /** Login with credentials */
+  login(email: string, password: string): this {
     this.waitForReady();
     return this.fillForm(email, password).submit();
   }
 
-  verifyErrorMessage(expectedText) {
+  /** Verify error message appears */
+  verifyErrorMessage(expectedText?: string | RegExp): this {
     const errorEl = this.getErrorMessage();
     errorEl.should('be.visible');
 
     if (expectedText) {
+      const textChain = errorEl.invoke('text');
       if (expectedText instanceof RegExp) {
-        errorEl.invoke('text').should('match', expectedText);
+        textChain.should('match', expectedText);
       } else {
-        errorEl.should('contain.text', expectedText);
+        textChain.should('contain.text', expectedText);
       }
     }
 
@@ -84,9 +82,4 @@ class LoginFormComponent {
   }
 }
 
-export default LoginFormComponent;
-
-/**
- * Expected login error message regex for bad credentials
- */
-export const BAD_CREDENTIALS_MSG = /Bad credentials! Please try again! Make sure that you've registered\./i;
+export default LoginFormComponent; 

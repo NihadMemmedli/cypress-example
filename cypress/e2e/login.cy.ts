@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 import EcommercePage from '../support/page-objects/ecommerce';
-import LoginFormComponent, { BAD_CREDENTIALS_MSG } from '../support/page-objects/components/login-form.component';
+import LoginFormComponent from '../support/page-objects/components/login-form.component';
+import { BAD_CREDENTIALS_MSG } from '../support/constants';
 
 describe('Login Negative Scenarios', () => {
   const page = new EcommercePage();

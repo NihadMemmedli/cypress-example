@@ -19,6 +19,7 @@ module.exports = {
   },
   plugins: ['cypress', '@typescript-eslint'],
   rules: {
+    '@typescript-eslint/no-unused-vars': ['error', { args: 'after-used', ignoreRestSiblings: true }],
     // Custom rules can be added here
   }
 }; 

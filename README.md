@@ -9,6 +9,7 @@ This repository contains a robust Cypress testing framework designed for the QA 
 - **Smart UI Interactions** - Retry logic and stability detection for flaky elements
 - **Optimized Configuration** - Fine-tuned Cypress settings for reliability
 - **Advanced Utilities** - Network waiting, element stability, and dynamic content handling
+- **TypeScript Support** - Fully migrated tests, page-objects, and commands to TypeScript with strict typing for maximum safety and IDE assistance
 
 ## Prerequisites
 
@@ -43,6 +44,7 @@ cypress/
 │   ├── e2e.ts            # Support file with configurations
 │   ├── selectors.ts      # Centralized selector repository
 │   ├── utils.ts          # Utility functions for testing
+│   ├── types.ts          # Shared TypeScript interfaces (User, ShippingAddress)
 │   └── page-objects/     # Enhanced Page Object implementation
 │       ├── ecommerce.ts  # E-commerce page objects with chainable methods
 │       └── file-upload.ts # File upload page objects

@@ -35,6 +35,7 @@
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-cypress": "^2.15.2",
     "prettier": "^2.8.8",
+    "ts-prune": "^0.10.3",
     "typescript": "^5.8.3"
   }
 }
