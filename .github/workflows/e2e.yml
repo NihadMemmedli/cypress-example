@@ -5,6 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   cypress-e2e:
@@ -30,14 +31,14 @@ jobs:
             cypress-example
 
       - name: Upload JUnit test results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: junit-results
           path: cypress/results/*.xml
 
       # Upload Allure results for HTML generation
       - name: Upload Allure results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: allure-results
           path: cypress/results/allure-results/ 
