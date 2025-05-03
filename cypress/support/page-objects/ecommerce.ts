@@ -1,10 +1,11 @@
 /// <reference types="cypress" />
 import BasePage from './base.page';
-import LoginFormComponent from './components/login-form.component';
 import ProductListComponent from './components/product-list.component';
 import ShippingFormComponent from './components/shipping-form.component';
 import CheckoutComponent from './components/checkout.component';
-import { UserGenerator, } from '../data-generators';
+import LoginFormComponent from './components/login-form.component';
+import { UserGenerator } from '../data-generators';
+import type { User, ShippingAddress } from '../types';
 
 /**
  * Enhanced E-commerce page object with component-based approach
@@ -28,28 +29,32 @@ class EcommercePage extends BasePage {
    * Visit the e-commerce page and wait for it to fully load
    */
   visit(url?: string): this {
-    super.visit(Cypress.env('ecommerceUrl'));
+    const targetUrl = url ?? Cypress.env('ecommerceUrl');
+    super.visit(targetUrl);
     this.loginForm.waitForReady();
     return this;
   }
 
   /**
-   * Login with provided credentials
-   * @param {string|Object} emailOrUser - User email or user object
-   * @param {string} [password] - User password (not needed if user object provided)
-   * @returns {EcommercePage} - Returns page object for chaining
+   * Login with a user object or email/password
+   * @param userOrEmail - User object or email string
+   * @param password - Password string (required when passing email)
+   * @returns this page object for chaining
    */
-  login(emailOrUser: any, password?: any): EcommercePage {
-    // Handle both email+password and user object formats
-    let email: any, pwd: any;
+  login(user: User): this;
+  login(email: string, password: string): this;
+  login(userOrEmail: User | string, password?: string): this {
+    let email: string, pwd: string;
 
-    if (typeof emailOrUser === 'object') {
-      email = emailOrUser.email;
-      pwd = emailOrUser.password;
+    if (typeof userOrEmail === 'object') {
+      email = userOrEmail.email;
+      pwd = userOrEmail.password;
     } else {
-      // Email and password passed separately
-      email = emailOrUser || 'admin@admin.com';
-      pwd = password || 'admin123';
+      email = userOrEmail;
+      if (!password) {
+        throw new Error('Password is required when logging in with email');
+      }
+      pwd = password;
     }
 
     this.loginForm.login(email, pwd);
@@ -58,10 +63,10 @@ class EcommercePage extends BasePage {
 
   /**
    * Add products to cart (can be a count, a single product name/index, or a list)
-   * @param {number|string|Array<string|number>} productsOrCount - Count, name, or array of names/indices
-   * @returns {EcommercePage} - Returns page object for chaining
+   * @param productsOrCount - Count, name, or array of names/indices
+   * @returns this page object for chaining
    */
-  addToCart(productsOrCount: number | string | Array<string | number>): EcommercePage {
+  addToCart(productsOrCount: number | string | Array<string | number>): this {
     if (typeof productsOrCount === 'number') {
       // Add specific number of products
       this.productList.addProductsToCart(productsOrCount);
@@ -86,10 +91,9 @@ class EcommercePage extends BasePage {
   }
 
   /**
-   * Proceed to checkout
-   * @returns {EcommercePage} - Returns page object for chaining
+   * Proceed to checkout and return this page object for chaining
    */
-  proceedToCheckout(): EcommercePage {
+  proceedToCheckout(): this {
     this.checkout.proceedToCheckout();
     return this;
   }
@@ -105,10 +109,10 @@ class EcommercePage extends BasePage {
 
   /**
    * Complete shipping form with address
-   * @param {Object} address - Shipping address
-   * @returns {EcommercePage} - This page for chaining
+   * @param address - ShippingAddress details for the form
+   * @returns this page object for chaining
    */
-  completeShipping(address: object): EcommercePage {
+  completeShipping(address: ShippingAddress): this {
     cy.log('Completing shipping with address');
 
     this.shippingForm.fillAndSubmit(address);
@@ -118,49 +122,43 @@ class EcommercePage extends BasePage {
 
   /**
    * Verify successful order completion
-   * @param {Object} [address] - Shipping address details to verify in confirmation
-   * @returns {EcommercePage} - Returns page object for chaining
+   * @param address - ShippingAddress to verify in confirmation
+   * @returns this page object for chaining
    */
-  verifyOrderSuccess(address?: any): EcommercePage {
+  verifyOrderSuccess(address: ShippingAddress): this {
     this.shippingForm.verifyOrderSuccess(address);
     return this;
   }
 
   /**
-   * Verify form fields are visible and enabled
-   * @returns {EcommercePage} - Returns page object for chaining
+   * Verify form fields are visible and enabled, then return this page object for chaining
    */
-  verifyShippingForm(): EcommercePage {
+  verifyShippingForm(): this {
     this.shippingForm.verifyFormFields();
     return this;
   }
 
   /**
-   * Login as admin user using the default credentials and visit page
-   * @returns EcommercePage for chaining
+   * Login as admin using default credentials and return this page object for chaining
    */
-  loginAsAdmin(): EcommercePage {
+  loginAsAdmin(): this {
     const admin = UserGenerator.admin();
     cy.log(`Login as admin: ${admin.email}`);
     return this.visit().login(admin);
   }
 
   /**
-   * Add random products to cart
-   * @param {number} count - Number of products to add
-   * @returns {EcommercePage} - Returns page object for chaining
+   * Add random products to cart and return this page object for chaining
    */
-  addRandomProductsToCart(count: number = 2): EcommercePage {
+  addRandomProductsToCart(count: number = 2): this {
     cy.log(`Add ${count} random products to cart`);
     return this.addToCart(count);
   }
 
   /**
-   * Add specific products to cart
-   * @param {Array<string|number>} products - Array of product names or indices
-   * @returns {EcommercePage} - Returns page object for chaining
+   * Add specific products to cart and return this page object for chaining
    */
-  addSpecificProductsToCart(products: Array<string | number>): EcommercePage {
+  addSpecificProductsToCart(products: Array<string | number>): this {
     cy.log(`Add specific products to cart: ${products.join(', ')}`);
     products.forEach(product => {
       this.addToCart(product);
@@ -169,31 +167,29 @@ class EcommercePage extends BasePage {
   }
 
   // --------------------------------------------------------------------------
-  // Verification methods (separate assertions from actions)
+  // Verification methods
   // --------------------------------------------------------------------------
 
   /**
-   * Verify that the product list has loaded and contains items
+   * Verify that the product list has loaded and return this page object
    */
-  verifyProductListLoaded() {
+  verifyProductListLoaded(): this {
     this.productList.getShopItems().should('have.length.greaterThan', 0);
     return this;
   }
 
   /**
-   * Verify that the shipping form is visible
+   * Verify that the shipping form is visible and return this page object
    */
-  verifyShippingFormVisible() {
+  verifyShippingFormVisible(): this {
     this.shippingForm.getForm().should('be.visible');
     return this;
   }
 
   /**
-   * Verify that the cart total matches the sum of a list of products
-   * @param {Array<string>} products - Array of product names
-   * @returns {EcommercePage}
+   * Verify that the cart total matches the sum of given products and return this page object
    */
-  verifyCartTotalMatchesProducts(products: string[]): EcommercePage {
+  verifyCartTotalMatchesProducts(products: string[]): this {
     cy.log(`Verifying cart total for products: ${products.join(', ')}`);
     // Accumulate product prices
     let expectedTotal = 0;
