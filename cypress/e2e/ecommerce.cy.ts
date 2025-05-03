@@ -85,4 +85,29 @@ describe('E-commerce Auth & Order Flow', () => {
       page.verifyCartTotalMatchesProducts(remaining);
     });
   });
+
+  it('updates total when item quantity changes', () => {
+    cy.fixture('happyPath').then(({ user, products }) => {
+      // login and load products
+      page.visit();
+      page.login(user);
+      page.verifyProductListLoaded();
+
+      // add the first product to cart
+      page.addToCart(products[0]);
+
+      // change quantity to 4 and trigger update
+      cy.get('.cart-quantity-input')
+        .clear()
+        .type('4')
+        .should('have.value', '4')
+        .blur();
+
+      // verify total = unit price * 4
+      page.productList.getItemPriceByName(products[0]).then(price => {
+        const expectedTotal = price * 4;
+        page.productList.getCartTotal().should('equal', expectedTotal);
+      });
+    });
+  });
 }); 
