@@ -1,180 +1,257 @@
-# Enhanced Cypress Automation Framework
+# Cypress TypeScript E2E Framework
 
-This repository contains a robust Cypress testing framework designed for the QA Practice application. The framework demonstrates best practices in UI test automation with a focus on reliability and maintainability.
+A fully TypeScript-based end-to-end testing framework built with Cypress. Includes a robust Page Object Model, centralized support utilities, and best-practice workflows for UI testing.
 
-## Features
+## Table of Contents
 
-- **Enhanced Page Object Pattern** - Chainable methods for better readability
-- **Robust Selector Strategy** - Centralized selector repository with fallback mechanisms
-- **Smart UI Interactions** - Retry logic and stability detection for flaky elements
-- **Optimized Configuration** - Fine-tuned Cypress settings for reliability
-- **Advanced Utilities** - Network waiting, element stability, and dynamic content handling
-- **TypeScript Support** - Fully migrated tests, page-objects, and commands to TypeScript with strict typing for maximum safety and IDE assistance
+1. [Overview](#overview)
+2. [Prerequisites](#prerequisites)
+3. [Setup & Installation](#setup--installation)
+4. [Configuration](#configuration)
+5. [Available Scripts](#available-scripts)
+6. [Folder Layout](#folder-layout)
+7. [Writing & Organizing Tests](#writing--organizing-tests)
+8. [Page Object Model](#page-object-model)
+9. [Support Modules](#support-modules)
+10. [TypeScript Integration](#typescript-integration)
+11. [Linting & Formatting](#linting--formatting)
+12. [Contributing](#contributing)
+13. [License](#license)
+
+---
+
+## Overview
+
+This repository demonstrates a scalable, maintainable Cypress framework using TypeScript. Core features:
+
+- Strongly typed tests and support code
+- Page Object Model (POM) for reusable UI interactions
+- Centralized commands, selectors, data generation, utilities
+- Fixture-driven and generator-driven test data
+- Both positive and negative test scenarios
+
+Typical test flows:
+
+- Authentication (login, error handling)
+- Product listing & cart operations
+- Checkout and shipping form validation
+- File upload endpoints
+
+---
 
 ## Prerequisites
 
-- Node.js (v14 or later)
-- npm (v6 or later)
+- Node.js v14 or later
+- npm v6 or later (or Yarn)
 
-## Installation
+Verify:
 
-1. Clone this repository:
 ```bash
+node -v
+npm -v
+```
+
+---
+
+## Setup & Installation
+
+1. **Clone the repo**
+
+   ```bash
 git clone https://github.com/NihadMemmedli/cypress-example.git
 cd cypress-example
-```
+   ```
 
-2. Install dependencies:
-```bash
+2. **Install dependencies**
+
+   ```bash
 npm install
-```
-
-## Framework Architecture
-
-```
-cypress/
-├── e2e/
-│   ├── ecommerce.cy.ts   # E-commerce authentication and order flow tests
-│   └── file-upload.cy.ts # File upload tests
-├── fixtures/
-│   ├── sample.txt        # Sample file for upload testing
-│   └── example.json      # Example fixture data
-├── support/               # All support code for the test framework
-│   ├── commands/          # Custom Cypress commands
-│   │   └── index.ts
-│   ├── constants/         # Shared runtime constants (error messages, selectors overrides)
-│   │   └── index.ts
-│   ├── data/              # Test data generators
-│   │   └── index.ts
-│   ├── selectors/         # Centralized selector repository
-│   │   └── index.ts
-│   ├── types/             # Shared TypeScript interfaces and types
-│   │   └── index.ts
-│   ├── utils/             # Utility helper functions
-│   │   └── index.ts
-│   ├── page-objects/      # Page Object Model classes and components
-│   │   ├── base.page.ts
-│   │   ├── ecommerce.ts
-│   │   └── components/
-│   │       ├── login-form.component.ts
-│   │       ├── product-list.component.ts
-│   │       └── shipping-form.component.ts
-│   └── e2e.ts             # Support entry point (imports all of the above)
-└── downloads/            # Downloaded files during testing
-```
-
-## Best Practices Implemented
-
-### 1. Robust Selector Strategy
-The framework uses a centralized selector repository with multiple fallback options for each element, improving test reliability when the application UI changes.
-
-```javascript
-// Example from selectors.js
-export const LOGIN = {
-  EMAIL_FIELD: '#email',
-  PASSWORD_FIELD: '#password',
-  SUBMIT_BUTTON: '#submitLoginBtn'
-};
-```
-
-### 2. Smart UI Interactions
-Custom commands with built-in retry logic and stability detection handle flaky UI elements and dynamic content.
-
-```javascript
-// Example usage in tests
-cy.getBySelectors(LOGIN.EMAIL_FIELD)
-  .waitForStable()
-  .smartType('example@test.com');
-```
-
-### 3. Enhanced Page Objects with Method Chaining
-Page objects use method chaining for cleaner, more readable test code.
-
-```javascript
-// Example test with method chaining
-EcommercePage
-  .login()
-  .addProductsToCart(3)
-  .proceedToCheckout()
-  .fillShippingForm()
-  .verifyOrderSuccess();
-```
-
-### 4. Intelligent Waiting Strategies
-The framework replaces arbitrary wait times with intelligent waiting strategies based on application state.
-
-```javascript
-// Waiting for page load completion
-cy.waitForPageLoad();
-
-// Waiting for element stability
-element.waitForStable().smartClick();
-```
-
-### 5. Error Handling and Recovery
-The framework implements sophisticated error handling with automatic retries and detailed logging.
-
-### 6. Session Caching
-- We introduced a custom `cy.loginSession()` command that leverages Cypress's `cy.session()` API to cache and restore authentication state, greatly speeding up your suite.
-
-```javascript
-// Cache login once per spec
-before(() => {
-  cy.loginSession();
-});
-
-// Restore session before each test and navigate to app
-beforeEach(() => {
-  cy.loginSession();
-  EcommercePage.visit();
-});
-```
-
-## Running Tests
-
-### Interactive Mode
-
-```bash
-npm run cy:open
-```
-
-### Headless Mode
-
-```bash
-npm test
 # or
-npm run cy:run
-```
+# yarn install
+   ```
 
-To run a specific test file:
+3. **Open Cypress** (interactive mode)
+
+   ```bash
+npm run cy:open
+   ```
+
+4. **Run Tests Headlessly**
+
+   ```bash
+npm run cy:run
+   ```
+
+---
+
+## Configuration
+
+Cypress settings are defined in `cypress.config.js`:
+
+- **`baseUrl`**: Default URL for tests (set to QA practice demo)
+- **`supportFile`**: Path to bootstrap file (`cypress/support/index.ts`)
+- **Timeouts**: `defaultCommandTimeout`, `pageLoadTimeout`, etc.
+- **`specPattern`**: Glob pattern for test spec files (`cypress/e2e/**/*.cy.ts`)
+- **`env`**:
+  - `ecommerceUrl`: route for e-commerce auth page
+  - `fileUploadUrl`: route for file upload page
+
+Edit these settings to match your application under test.
+
+---
+
+## Available Scripts
+
+| Script            | Command                     | Description                                                 |
+|-------------------|-----------------------------|-------------------------------------------------------------|
+| Interactive GUI   | `npm run cy:open`           | Launches the Cypress Test Runner UI                        |
+| Headless Run      | `npm run cy:run`            | Runs all specs headlessly in Chrome                        |
+| Lint              | `npm run lint`              | Runs ESLint on all TS and JS files under `cypress/`        |
+| Format            | `npm run format`            | Applies Prettier formatting to code files                  |
+
+You can also run individual specs:
 
 ```bash
-npx cypress run --spec "cypress/e2e/ecommerce.cy.ts"
+npx cypress run --spec "cypress/e2e/login.cy.ts"
 ```
 
-## Configuration Options
+---
 
-The framework includes optimized Cypress configuration with:
+## Folder Layout
 
-- Retry settings for flaky tests
-- Increased timeouts for network operations
-- Browser launch options for better performance
-- Screenshot and video settings
+```
+project-root/
+├─ package.json           # npm scripts & dependencies
+├─ tsconfig.json          # TypeScript config
+├─ cypress.config.js      # Cypress configuration
+└─ cypress/
+   ├─ e2e/                # Test spec files
+   │  ├─ ecommerce.cy.ts
+   │  ├─ file-upload.cy.ts
+   │  ├─ login.cy.ts
+   │  └─ shipping-validation.cy.ts
+   ├─ fixtures/           # Static fixture data (JSON, files)
+   ├─ downloads/          # Downloads captured during tests
+   └─ support/            # Support code for tests
+      ├─ index.ts         # Entry point (loads submodules)
+      ├─ commands/        # Custom `cy.*` commands
+      │   └─ index.ts
+      ├─ constants/       # Shared runtime constants
+      │   └─ index.ts
+      ├─ data/            # Test data generators (Faker)
+      │   └─ index.ts
+      ├─ selectors/       # Centralized selectors
+      │   └─ index.ts
+      ├─ types/           # Shared TS interfaces and types
+      │   └─ index.ts
+      ├─ utils/           # General helper functions
+      │   └─ index.ts
+      └─ page-objects/    # POM classes & components
+          ├─ base.page.ts
+          ├─ ecommerce.ts
+          └─ components/
+              ├─ login-form.component.ts
+              ├─ product-list.component.ts
+              └─ shipping-form.component.ts
+```
 
-## Debugging Tips
+---
 
-1. **Use Interactive Mode**: Run `npm run cy:open` to see tests execute in real-time
-2. **Enable Debug Retries**: Set `debugRetries: true` in the Cypress environment to log retry attempts
-3. **Check Network Logs**: Enable `logFailedRequests: true` for detailed network error logging
-4. **Use Element Existence Utility**: The `elementExists()` utility helps check if elements are present before interacting
+## Writing & Organizing Tests
+
+1. **Spec Files**: Create under `cypress/e2e/`, suffix `.cy.ts`.
+2. **Reference Types**: Top of each spec:
+   ```ts
+   /// <reference types="cypress" />
+   ```
+3. **Use POM**: Import page objects, not raw selectors:
+   ```ts
+   import EcommercePage from '../support/page-objects/ecommerce';
+   const page = new EcommercePage();
+   ```
+4. **Chain Actions**:
+   ```ts
+   page.visit()
+       .login(validUser)
+       .addToCart(2)
+       .proceedToCheckout();
+   ```
+5. **Data**: Use fixtures (`cy.fixture`) or generators from `support/data`.
+
+---
+
+## Page Object Model
+
+Encapsulate all page interactions:
+
+- **`base.page.ts`**: Common methods (visit, logout).
+- **`ecommerce.ts`**: High-level flows (login, addToCart, checkout).
+- **Components**: Reusable fragments:
+  - `login-form.component.ts`
+  - `product-list.component.ts`
+  - `shipping-form.component.ts`
+
+All methods return `this` for chaining and are strongly typed.
+
+---
+
+## Support Modules
+
+### commands
+Custom Cypress commands, e.g.:
+```ts
+cy.safeClick(selector)
+cy.loginSession(user)
+```
+
+### constants
+Shared runtime constants (error messages, timeouts).
+
+### selectors
+Central map of CSS selectors:
+```ts
+export const LOGIN = { EMAIL: '#email', PASSWORD: '#password' };
+```
+
+### data
+Faker-based generators for user, address, etc.
+
+### types
+Shared TypeScript `User` and `ShippingAddress` interfaces.
+
+### utils
+Generic helpers (e.g., date/time formatters).
+
+---
+
+## TypeScript Integration
+
+- All support code (`.ts`) and specs (`.cy.ts`) are compiled by `tsc`.
+- ESLint uses `@typescript-eslint` parser and plugin.
+- Prettier ensures consistent formatting.
+
+---
+
+## Linting & Formatting
+
+- **Lint**: `npm run lint` (fails on warnings).
+- **Format**: `npm run format` (auto-fix style issues).
+
+Integrate these commands in your CI pipeline to enforce quality.
+
+---
 
 ## Contributing
 
-1. Use the established selector patterns in `selectors.js`
-2. Follow the chainable method pattern for page objects
-3. Utilize smart UI interaction commands for all element interactions
-4. Add proper documentation for new features or changes
+1. Fork the repo and create a branch: `git checkout -b feature/name`.
+2. Implement using existing POM structure and commands.
+3. Add new selectors to `support/selectors`.
+4. Update types in `support/types` as needed.
+5. Run `npm run lint` and `npm run format` before submitting.
+6. Open a Pull Request with a clear description.
+
+---
 
 ## License
 
-This project is licensed under the ISC License. 
+This project is licensed under the ISC License. See [LICENSE](LICENSE) for details. 
