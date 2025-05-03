@@ -31,19 +31,17 @@ class FileUploadPage {
     this.getFileInput().should('exist');
   }
   
-  uploadFile(fileName, fileType, fileContent = 'Test file content') {
+  uploadFile(fileName: string, fileType: string, fileContent: string = 'Test file content') {
     // Ensure the file input is available with a longer timeout
     this.getFileInput().should('exist', { timeout: 10000 });
     
-    // Use attachFile with retry logic
+    // Convert string content to Blob for attachFile
+    const blob = new Blob([fileContent], { type: fileType });
     this.getFileInput().attachFile({
-      filePath: fileName,
-      fileContent: fileContent,
-      fileName: fileName,
+      fileContent: blob,
+      fileName,
       mimeType: fileType
-    }).then(() => {
-      cy.log(`File ${fileName} attached successfully`);
-    });
+    }).then(() => cy.log(`File ${fileName} attached successfully`));
     
     // Submit the form
     this.getSubmitButton().click();
