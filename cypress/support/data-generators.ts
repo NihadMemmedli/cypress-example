@@ -14,7 +14,7 @@ export const UserGenerator = {
    * Generate random user credentials
    * @returns {Object} User credentials object
    */
-  random() {
+  random(): object {
     return {
       email: faker.internet.email(),
       password: faker.internet.password({ length: 10, memorable: true }),
@@ -25,9 +25,8 @@ export const UserGenerator = {
 
   /**
    * Generate admin user credentials
-   * @returns {Object} Admin user credentials
    */
-  admin() {
+  admin(): { email: string; password: string; role: string } {
     return {
       email: 'admin@admin.com',
       password: 'admin123',
@@ -39,7 +38,7 @@ export const UserGenerator = {
    * Generate customer user credentials
    * @returns {Object} Customer user credentials
    */
-  customer() {
+  customer(): object {
     return {
       email: `customer.${faker.number.int({ min: 1000, max: 9999 })}@example.com`,
       password: 'customer123',
@@ -51,7 +50,7 @@ export const UserGenerator = {
    * Generate invalid credentials
    * @returns {Object} Invalid credentials
    */
-  invalid() {
+  invalid(): object {
     return {
       email: `invalid_${faker.string.alphanumeric(8)}@example.com`,
       password: 'wrongpassword123'
@@ -67,7 +66,7 @@ export const AddressGenerator = {
    * Generate random address
    * @returns {Object} Random address
    */
-  random() {
+  random(): object {
     return {
       phone: faker.phone.number(),
       street: faker.location.streetAddress(),
@@ -88,7 +87,7 @@ export const AddressGenerator = {
    * Generate US address
    * @returns {Object} US address
    */
-  us() {
+  us(): object {
     return {
       phone: faker.helpers.replaceSymbols('###-###-####'),
       street: faker.location.streetAddress(),
@@ -103,7 +102,7 @@ export const AddressGenerator = {
    * Generate shipping address
    * @returns {Object} Shipping address with delivery instructions
    */
-  shipping() {
+  shipping(): object {
     const base = this.random();
     return {
       ...base,
@@ -125,7 +124,7 @@ export const ProductGenerator = {
    * Generate test product data
    * @returns {Object} Product data
    */
-  random() {
+  random(): object {
     return {
       name: `${faker.commerce.productAdjective()} ${faker.commerce.product()}`,
       price: faker.commerce.price(),
@@ -138,7 +137,7 @@ export const ProductGenerator = {
    * Generate specific product names from the application
    * @returns {string} Product name
    */
-  knownProduct() {
+  knownProduct(): string {
     return faker.helpers.arrayElement([
       'iPhone',
       'Samsung',
@@ -152,7 +151,7 @@ export const ProductGenerator = {
    * Generate product search terms
    * @returns {string} Search term
    */
-  searchTerm() {
+  searchTerm(): string {
     return faker.helpers.arrayElement([
       'phone',
       'smartphone',
@@ -170,8 +169,8 @@ export const ProductGenerator = {
 export const OrderGenerator = {
   /**
    * Generate complete order with user, products and shipping
-   * @param {number} productCount Number of products in order
-   * @returns {Object} Complete order data
+   * @param productCount Number of products in order
+   * @returns Complete order data
    */
   complete(productCount = 3) {
     const products: ReturnType<typeof ProductGenerator.random>[] = [];
@@ -203,7 +202,7 @@ export const FileGenerator = {
    * Generate file upload data
    * @returns {Object} File data for upload
    */
-  uploadFile() {
+  uploadFile(): object {
     return {
       name: `test-file-${faker.string.alphanumeric(6)}.txt`,
       type: 'text/plain',
@@ -215,7 +214,7 @@ export const FileGenerator = {
    * Generate image upload data
    * @returns {Object} Image data for upload
    */
-  uploadImage() {
+  uploadImage(): object {
     return {
       name: `test-image-${faker.string.alphanumeric(6)}.jpg`,
       type: 'image/jpeg',

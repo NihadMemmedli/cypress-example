@@ -4,7 +4,7 @@ import LoginFormComponent from './components/login-form.component';
 import ProductListComponent from './components/product-list.component';
 import ShippingFormComponent from './components/shipping-form.component';
 import CheckoutComponent from './components/checkout.component';
-import { UserGenerator, AddressGenerator } from '../data-generators';
+import { UserGenerator, } from '../data-generators';
 
 /**
  * Enhanced E-commerce page object with component-based approach
@@ -132,18 +132,6 @@ class EcommercePage extends BasePage {
    */
   verifyShippingForm(): EcommercePage {
     this.shippingForm.verifyFormFields();
-    return this;
-  }
-
-  /**
-   * Login with invalid credentials and verify error
-   * @returns {EcommercePage} - Returns page object for chaining
-   */
-  loginWithInvalidCredentials(): EcommercePage {
-    const invalidUser = UserGenerator.invalid();
-    cy.log(`Login with invalid credentials: ${invalidUser.email}`);
-    this.visit().login(invalidUser);
-    this.loginForm.verifyErrorMessage(/Bad credentials|Please try again|registered/i);
     return this;
   }
 
