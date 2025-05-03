@@ -84,6 +84,18 @@ npm run cy:run
 
 ---
 
+## Docker Usage
+
+You can also run the entire test suite inside a Docker container (requires Docker installed):
+
+```bash
+docker build -t cypress-example .
+docker run --rm cypress-example
+```
+This approach uses the official `cypress/included` image, ensuring consistency between local and CI environments.
+
+---
+
 ## Configuration
 
 Cypress settings are defined in `cypress.config.js`:
