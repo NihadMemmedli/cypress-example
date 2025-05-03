@@ -17,8 +17,9 @@ A fully TypeScript-based end-to-end testing framework built with Cypress. Includ
 9. [Support Modules](#support-modules)
 10. [TypeScript Integration](#typescript-integration)
 11. [Linting & Formatting](#linting--formatting)
-12. [Contributing](#contributing)
-13. [License](#license)
+12. [Reporting](#reporting)
+13. [Contributing](#contributing)
+14. [License](#license)
 
 ---
 
@@ -245,6 +246,38 @@ Generic helpers (e.g., date/time formatters).
 - **Format**: `npm run format` (auto-fix style issues).
 
 Integrate these commands in your CI pipeline to enforce quality.
+
+---
+
+## Reporting
+
+This framework captures test results in multiple formats:
+
+- **JUnit XML**: Generated to `cypress/results/*.xml` for CI pipelines and test insights.
+- **Allure**: Rich HTML reports via the Allure adapter.
+
+### Local Allure Report
+
+1. Install Allure CLI (if not already):
+   ```bash
+   npm install -g allure-commandline --save-dev
+   ```
+2. Run tests locally:
+   ```bash
+   npm run cy:run
+   ```
+3. Generate and open the report:
+   ```bash
+   allure serve cypress/results/allure-results
+   ```
+
+### CI Artifact
+GitHub Actions uploads:
+
+- **JUnit** (`junit-results` artifact)
+- **Allure** (`allure-results` artifact)
+
+You can download `allure-results` from the workflow run and generate the HTML report with `allure serve` locally.
 
 ---
 

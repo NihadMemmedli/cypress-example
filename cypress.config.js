@@ -5,12 +5,16 @@ module.exports = defineConfig({
     supportFile: 'cypress/support/index.ts',
     baseUrl: 'https://qa-practice.netlify.app',
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
-    reporter: 'junit',
+    reporter: 'mocha-multi-reporters',
     reporterOptions: {
-      mochaFile: 'cypress/results/junit-[hash].xml',
-      toConsole: false
+      reporterEnabled: 'spec, @shelex/allure-mocha',
+      allureMochaReporterOptions: {
+        targetDir: 'cypress/results/allure-results'
+      }
     },
     setupNodeEvents(on, config) {
+      // initialize allure plugin
+      require('@shelex/cypress-allure-plugin/plugin')(on, config);
       // implement node event listeners here
       on('before:browser:launch', (browser, launchOptions) => {
         // Configure browser settings for better performance and stability
@@ -24,6 +28,8 @@ module.exports = defineConfig({
 
         return launchOptions;
       });
+
+      return config;
     },
     viewportWidth: 1280,
     viewportHeight: 720,

@@ -33,4 +33,11 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: junit-results
-          path: cypress/results/*.xml 
+          path: cypress/results/*.xml
+
+      # Upload Allure results for HTML generation
+      - name: Upload Allure results
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-results
+          path: cypress/results/allure-results/ 
