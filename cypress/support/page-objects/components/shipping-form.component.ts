@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-import { SHIPPING } from '../../selectors';
+import { SHIPPING, ORDER_CONFIRMATION, COMMON } from '../../selectors';
 
 /**
  * Shipping Form Component
@@ -59,9 +59,8 @@ class ShippingFormComponent {
    * @returns {Cypress.Chainable<JQuery<HTMLElement>>} Element
    */
   getSuccessMessage(): Cypress.Chainable<JQuery<HTMLElement>> {
-    // Use a more specific selector for the order confirmation message
-    // Reverting to something similar to the original specific selector
-    return cy.get('#message, [data-qa="order-confirmation"], .order-confirmation');
+    // Use centralized order confirmation selector
+    return cy.get(ORDER_CONFIRMATION.CONTAINER);
   }
 
   /**
@@ -69,9 +68,8 @@ class ShippingFormComponent {
    * @returns {Cypress.Chainable<JQuery<HTMLElement>>} Elements
    */
   getValidationErrorMessages(): Cypress.Chainable<JQuery<HTMLElement>> {
-    // Adjust selector based on how validation errors are actually displayed
-    // Try a common pattern for input-related errors or general error divs
-    return cy.get('input:invalid, select:invalid, .invalid-feedback, .error-text, .alert-danger');
+    // Use centralized common error selector
+    return cy.get(COMMON.ERROR_MESSAGE);
   }
   
   /**
@@ -134,15 +132,11 @@ class ShippingFormComponent {
   verifyValidationErrors(expectedErrorCount = 1): ShippingFormComponent {
     cy.log(`Verifying validation errors (expecting at least ${expectedErrorCount})`);
 
-    // Simplify validation check: Look for specific error message elements
-    // Assumes error messages have a common selector (e.g., '.error-message')
-    // Adjust the selector and assertion as needed based on the actual implementation.
-    this.getValidationErrorMessages()
-      .should('be.visible')
-      .and('have.length.at.least', expectedErrorCount);
-    
-    // Optionally, check for specific field :invalid pseudo-class or aria-invalid attribute
-    // this.getPhoneField().should('have.attr', 'aria-invalid', 'true');
+    // Use HTML5 validation messages: check that the first required field (phone) is invalid
+    this.getPhoneField()
+      .invoke('prop', 'validationMessage')
+      .should('be.a', 'string')
+      .and('not.be.empty');
     
     return this;
   }

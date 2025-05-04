@@ -26,5 +26,7 @@ declare namespace Cypress {
     safeClick(target: string | Chainable<JQuery<HTMLElement>>, options?: Partial<Cypress.Timeoutable & Cypress.Loggable>): Chainable<JQuery<HTMLElement>>;
     /** Start or restore a cached session */
     session<K extends string | unknown[]>(id: K, fn: () => void, options?: Partial<Cypress.SessionOptions>): Chainable<void>;
+    /** Attach a file to a file input using cypress-file-upload */
+    attachFile(fileName: string | { fileContent: Blob; fileName?: string; mimeType?: string }, options?: any): Chainable<JQuery<HTMLElement>>;
   }
 } 

@@ -1,7 +1,8 @@
 // Centralized types for Cypress tests and page objects
 
+import { UserGenerator } from "../data";
+
 // Import UserGenerator to extract User type
-import { UserGenerator } from './data';
 
 // User type based on the admin generator signature
 export type User = ReturnType<typeof UserGenerator.admin>;
