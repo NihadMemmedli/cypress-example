@@ -7,7 +7,7 @@ module.exports = defineConfig({
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
     reporter: 'mocha-multi-reporters',
     reporterOptions: {
-      reporterEnabled: 'spec, @shelex/allure-mocha',
+      reporterEnabled: 'spec, allure-mocha',
       allureMochaReporterOptions: {
         targetDir: 'cypress/results/allure-results'
       }
