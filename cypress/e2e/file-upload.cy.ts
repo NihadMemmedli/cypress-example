@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 import FileUploadPage from '../support/page-objects/file-upload';
+import fileUpload from '../fixtures/fileUpload.json';
 
 describe('File Upload Functionality', () => {
   beforeEach(() => {
@@ -7,30 +8,31 @@ describe('File Upload Functionality', () => {
   });
 
   it('should upload a text file successfully', () => {
-    cy.fixture('fileUpload').then(({ valid }) => {
-      FileUploadPage.uploadFile(valid.fileName, valid.fileType, valid.fileContent);
-      FileUploadPage.getFileInput()
-        .invoke('prop', 'files')
-        .its('0.name')
-        .should('equal', valid.fileName);
-    });
+    const { valid } = fileUpload;
+    FileUploadPage
+      .uploadFile(valid.fileName)
+      .verifyFileName(valid.fileName)
+      .verifySuccessMessageContains(
+        `You have successfully uploaded "${valid.fileName}"`
+      );
   });
 
-  it('should show error when no file is selected', () => {
-    FileUploadPage.submitWithoutFile();
-    FileUploadPage.getFileInput()
-      .should('have.prop', 'files')
-      .its('length')
-      .should('equal', 0);
+  it('should show empty file upload message when none is selected', () => {
+    FileUploadPage
+      .submitWithoutFile()
+      .verifySuccessMessageContains(
+        'You have successfully uploaded ""'
+      );
   });
 
   it('should handle large file upload (edge case)', () => {
-    cy.fixture('fileUpload').then(({ large }) => {
-      FileUploadPage.uploadFile(large.fileName, large.fileType);
-      FileUploadPage.getFileInput()
-        .invoke('prop', 'files')
-        .its('0.name')
-        .should('equal', large.fileName);
-    });
+    const { large } = fileUpload;
+    // Generate and upload a 1MB blob on the fly
+    FileUploadPage
+      .uploadGeneratedFile(large.fileName, 2048)
+      .verifyFileName(large.fileName)
+      .verifySuccessMessageContains(
+        `You have successfully uploaded "${large.fileName}"`
+      );
   });
 }); 
