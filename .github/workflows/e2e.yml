@@ -37,8 +37,6 @@ jobs:
           allure: true
           allureResultsPath: cypress/results/allure-results
         with:
-          start: npm start       # if you need a web server
-          wait-on: 'http://localhost:3000'
           command: npm run cy:run
 
       # 6. Load previous Allure history for report continuity
