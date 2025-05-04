@@ -17,9 +17,10 @@ A fully TypeScript-based end-to-end testing framework built with Cypress. Includ
 9. [Support Modules](#support-modules)
 10. [TypeScript Integration](#typescript-integration)
 11. [Linting & Formatting](#linting--formatting)
-12. [Reporting](#reporting)
-13. [Contributing](#contributing)
-14. [License](#license)
+12. [CI & GitHub Actions](#ci--github-actions)
+13. [Reporting](#reporting)
+14. [Contributing](#contributing)
+15. [License](#license)
 
 ---
 
@@ -249,6 +250,17 @@ Generic helpers (e.g., date/time formatters).
 - **Format**: `npm run format` (auto-fix style issues).
 
 Integrate these commands in your CI pipeline to enforce quality.
+
+---
+
+## CI & GitHub Actions
+
+- **CI**: The GitHub Actions workflow uploads the HTML report directory (`allure-report`) under **Artifacts → allure-report**. You can download and view it locally.
+- **GitHub Pages**: On `push` to `main`, the report is also deployed to GitHub Pages at:
+
+  https://NihadMemmedli.github.io/cypress-example/
+
+You can browse the live HTML report at that URL.
 
 ---
 
