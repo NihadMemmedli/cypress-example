@@ -5,7 +5,7 @@ module.exports = defineConfig({
     supportFile: 'cypress/support/index.ts',
     baseUrl: 'https://qa-practice.netlify.app',
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
-    reporter: 'mocha-multi-reporters',
+    reporter: 'cypress-multi-reporters',
     reporterOptions: {
       reporterEnabled: 'spec, allure-mocha',
       allureMochaReporterOptions: {
@@ -13,8 +13,9 @@ module.exports = defineConfig({
       }
     },
     setupNodeEvents(on, config) {
-      // initialize allure plugin
-      require('@shelex/cypress-allure-plugin/plugin')(on, config);
+      // initialize allure plugin using the writer interface
+      const allureWriter = require('@shelex/cypress-allure-plugin/writer');
+      allureWriter(on, config);
       // implement node event listeners here
       on('before:browser:launch', (browser, launchOptions) => {
         // Configure browser settings for better performance and stability

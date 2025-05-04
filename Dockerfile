@@ -3,6 +3,9 @@ FROM cypress/included:14.3.2
 # Set working directory
 WORKDIR /e2e
 
+# Set NODE_ENV to development
+ENV NODE_ENV=development
+
 # Copy package manifests first to leverage caching
 COPY package.json package-lock.json ./
 
