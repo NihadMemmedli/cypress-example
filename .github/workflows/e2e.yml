@@ -27,6 +27,8 @@ jobs:
 
       # 3. Install dependencies
       - name: Install NPM dependencies
+        env:
+          NODE_ENV: development
         run: npm ci
 
       # 4. Prepare Allure results folder
