@@ -7,10 +7,7 @@ module.exports = defineConfig({
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
     reporter: 'cypress-multi-reporters',
     reporterOptions: {
-      reporterEnabled: 'spec, allure-mocha',
-      allureMochaReporterOptions: {
-        targetDir: 'cypress/results/allure-results'
-      }
+      reporterEnabled: 'spec'
     },
     setupNodeEvents(on, config) {
       // initialize allure plugin using the writer interface
