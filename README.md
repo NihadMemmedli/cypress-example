@@ -233,7 +233,8 @@ Faker-based generators for user, address, etc.
 Shared TypeScript `User` and `ShippingAddress` interfaces.
 
 ### utils
-Generic helpers (e.g., date/time formatters).
+Generic helpers (e.g., date/time formatters)
+- `waitForLoading(timeout?: number)`: Waits until the global loading/spinner indicator is gone (default 10s).
 
 ---
 

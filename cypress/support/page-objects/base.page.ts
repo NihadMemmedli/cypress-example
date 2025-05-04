@@ -1,5 +1,6 @@
 /// <reference path="../index.d.ts" />
 import { ECOMMERCE, LOGIN } from '../selectors';
+import { waitForLoading } from '../utils';
 
 class BasePage {
   getLogoutButton() {
@@ -10,6 +11,7 @@ class BasePage {
     cy.log(`Visiting ${url}`);
     cy.visit(url);
     cy.get('body').should('be.visible');
+    waitForLoading();
     return this;
   }
 

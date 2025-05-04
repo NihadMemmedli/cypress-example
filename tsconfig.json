@@ -20,6 +20,7 @@
     "types": ["cypress", "node", "mocha", "chai"]
   },
   "include": [
+    "cypress.config.ts",
     "cypress/**/*.ts",
     "cypress/**/*.d.ts",
     "cypress/**/*.tsx",
