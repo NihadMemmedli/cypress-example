@@ -210,10 +210,11 @@ All methods return `this` for chaining and are strongly typed.
 ## Support Modules
 
 ### commands
-Custom Cypress commands, e.g.:
+Custom Cypress commands and plugins, e.g.:
 ```ts
 cy.safeClick(selector)
-cy.loginSession(user)
+// from cypress-file-upload plugin
+cy.attachFile(filePath, options)
 ```
 
 ### constants
