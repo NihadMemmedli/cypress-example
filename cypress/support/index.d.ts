@@ -26,7 +26,5 @@ declare namespace Cypress {
     safeClick(target: string | Chainable<JQuery<HTMLElement>>, options?: Partial<Cypress.Timeoutable & Cypress.Loggable>): Chainable<JQuery<HTMLElement>>;
     /** Start or restore a cached session */
     session<K extends string | unknown[]>(id: K, fn: () => void, options?: Partial<Cypress.SessionOptions>): Chainable<void>;
-    /** Cache login state for admin or specified user */
-    loginSession(user?: string | { email: string; password: string }, password?: string): Chainable<void>;
   }
 } 
