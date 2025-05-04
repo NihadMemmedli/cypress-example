@@ -1,4 +1,7 @@
 name: Cypress E2E with Allure
+permissions:
+  contents: write
+  pages: write
 
 on:
   push:
