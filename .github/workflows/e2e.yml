@@ -1,4 +1,4 @@
-name: E2E Tests
+name: Cypress E2E with Allure
 
 on:
   push:
@@ -8,37 +8,48 @@ on:
   workflow_dispatch:
 
 jobs:
-  cypress-e2e:
+  test-and-publish:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      # 1. Checkout source code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Docker BuildKit
-        run: |
-          echo '{"experimental": true}' | sudo tee /etc/docker/daemon.json
-          sudo systemctl restart docker
-        if: runner.os == 'Linux'
-
-      - name: Build Docker image
-        run: docker build -t cypress-example .
-
-      - name: Run Cypress tests in Docker
-        run: |
-          mkdir -p cypress/results
-          docker run --rm \
-            -v ${{ github.workspace }}/cypress/results:/e2e/cypress/results \
-            cypress-example
-
-      - name: Upload JUnit test results
-        uses: actions/upload-artifact@v4
+      # 2. Set up Node.js environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          name: junit-results
-          path: cypress/results/*.xml
+          node-version: '16'
 
-      # Upload Allure results for HTML generation
-      - name: Upload Allure results
-        uses: actions/upload-artifact@v4
+      # 3. Install dependencies
+      - name: Install NPM dependencies
+        run: npm ci
+
+      # 4. Run Cypress tests
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v6
         with:
-          name: allure-results
-          path: cypress/results/allure-results/ 
+          start: npm start       # if you need a web server
+          wait-on: 'http://localhost:3000'
+          command: npm run cy:run
+
+      # 5. Generate Allure HTML report (includes history)
+      - name: Load previous Allure history
+        uses: actions/checkout@v4
+        if: always()
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Generate Allure report
+        run: npx allure generate cypress/results/allure-results --clean -o allure-report
+
+      # 6. Publish to GitHub Pages
+      - name: Deploy Allure report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-report
