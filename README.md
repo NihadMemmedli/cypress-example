@@ -95,20 +95,51 @@ This approach uses the official `cypress/included` image, ensuring consistency b
 
 ## Configuration
 
-Cypress settings are defined in `cypress.config.js`:
+All dynamic environment settings are centralized in `cypress.env.json`. Cypress automatically loads this file at runtime.
 
-- **`baseUrl`**: Default URL for tests (set to QA practice demo)
-- **`supportFile`**: Path to bootstrap file (`cypress/support/index.ts`)
-- **Timeouts**: `defaultCommandTimeout`, `pageLoadTimeout`, etc.
-- **`specPattern`**: Glob pattern for spec files (`cypress/e2e/**/*.cy.{ts,tsx}`)
-- **Reporter**: We now use the built-in `spec` reporter; Allure results are generated via the Allure plugin.
-- **`env`**:
-  - `ecommerceUrl`: route for e-commerce auth page
-  - `fileUploadUrl`: route for file upload page
-  - **`allure`**: set to `true` to activate Allure plugin
-  - **`allureResultsPath`**: path to result JSON files (default `cypress/results/allure-results`)
+`cypress.env.json` example:
+```json
+{
+  "ecommerceUrl": "/auth_ecommerce",
+  "fileUploadUrl": "/file-upload",
+  "timeoutDefaults": {
+    "defaultCommandTimeout": 10000,
+    "pageLoadTimeout": 60000,
+    "requestTimeout": 15000,
+    "responseTimeout": 15000
+  },
+  "flags": {
+    "retryOnNetworkFailure": true,
+    "logFailedRequests": true,
+    "allure": true,
+    "allureResultsPath": "cypress/results/allure-results"
+  }
+}
+```
 
-Edit these settings to match your application under test.
+In `cypress.config.ts`, these values are injected into the config via:
+```ts
+import env from './cypress.env.json';
+export default defineConfig({
+  e2e: {
+    baseUrl: 'https://qa-practice.netlify.app',
+    defaultCommandTimeout: env.timeoutDefaults.defaultCommandTimeout,
+    pageLoadTimeout:     env.timeoutDefaults.pageLoadTimeout,
+    requestTimeout:      env.timeoutDefaults.requestTimeout,
+    responseTimeout:     env.timeoutDefaults.responseTimeout,
+    env: {
+      ecommerceUrl:          env.ecommerceUrl,
+      fileUploadUrl:         env.fileUploadUrl,
+      retryOnNetworkFailure: env.flags.retryOnNetworkFailure,
+      logFailedRequests:     env.flags.logFailedRequests,
+      allure:                env.flags.allure,
+      allureResultsPath:     env.flags.allureResultsPath
+    }
+    // …rest of your settings…
+  }
+});
+```
+Adjust `cypress.env.json` values to fit your target environment (e.g., staging, prod).
 
 ---
 

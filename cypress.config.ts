@@ -2,6 +2,7 @@ import { defineConfig } from 'cypress';
 import path from 'path';
 import createBundler from '@bahmutov/cypress-esbuild-preprocessor';
 import alias from 'esbuild-plugin-alias';
+import env from './cypress.env.json';
 
 export default defineConfig({
   e2e: {
@@ -41,10 +42,10 @@ export default defineConfig({
     },
     viewportWidth: 1280,
     viewportHeight: 720,
-    defaultCommandTimeout: 10000,
-    pageLoadTimeout: 60000,
-    requestTimeout: 15000,
-    responseTimeout: 15000,
+    defaultCommandTimeout: env.timeoutDefaults.defaultCommandTimeout,
+    pageLoadTimeout: env.timeoutDefaults.pageLoadTimeout,
+    requestTimeout: env.timeoutDefaults.requestTimeout,
+    responseTimeout: env.timeoutDefaults.responseTimeout,
     retries: {
       runMode: 0,
       openMode: 0
@@ -58,11 +59,11 @@ export default defineConfig({
   },
 
   env: {
-    fileUploadUrl: '/file-upload',
-    ecommerceUrl: '/auth_ecommerce',
-    retryOnNetworkFailure: true,
-    logFailedRequests: true,
-    allure: true,
-    allureResultsPath: 'cypress/results/allure-results'
+    ecommerceUrl: env.ecommerceUrl,
+    fileUploadUrl: env.fileUploadUrl,
+    retryOnNetworkFailure: env.flags.retryOnNetworkFailure,
+    logFailedRequests: env.flags.logFailedRequests,
+    allure: env.flags.allure,
+    allureResultsPath: env.flags.allureResultsPath
   }
 }); 
