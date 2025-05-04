@@ -120,6 +120,7 @@ Edit these settings to match your application under test.
 | Headless Run      | `npm run cy:run`            | Runs all specs headlessly in Chrome                        |
 | Lint              | `npm run lint`              | Runs ESLint on all TS and JS files under `cypress/`        |
 | Format            | `npm run format`            | Applies Prettier formatting to code files                  |
+| Docker Test       | `npm run docker:test`        | Builds Docker image and runs Cypress tests inside Docker.    |
 
 You can also run individual specs:
 

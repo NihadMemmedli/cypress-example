@@ -8,7 +8,8 @@
     "test": "cypress run",
     "testHeaded": "npx cypress run --browser chrome",
     "lint": "eslint \"cypress/**/*.{js,ts,tsx}\" --max-warnings=0",
-    "format": "prettier --write \"cypress/**/*.{js,ts,tsx,json,css,md}\""
+    "format": "prettier --write \"cypress/**/*.{js,ts,tsx,json,css,md}\"",
+    "docker:test": "docker build -t cypress-example . && docker run --rm cypress-example"
   },
   "repository": {
     "type": "git",
