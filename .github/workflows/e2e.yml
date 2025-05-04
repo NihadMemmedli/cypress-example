@@ -39,9 +39,10 @@ jobs:
         with:
           command: npm run cy:run
 
-      # 6. Load previous Allure history for report continuity
+      # 6. Load previous Allure history for report continuity (if available)
       - name: Load previous Allure history
-        if: always()
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        continue-on-error: true
         uses: actions/checkout@v4
         with:
           ref: gh-pages
@@ -54,11 +55,21 @@ jobs:
           mkdir -p allure-report/history
           cp -r gh-pages/history/* allure-report/history/ || true
 
-      # 7. Publish to GitHub Pages
-      - name: Deploy Allure report to GitHub Pages
+      # 7. Upload Allure report artifact for download
+      - name: Upload Allure report artifact
         if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-report
+          path: allure-report
+
+      # 8. Publish Allure report to GitHub Pages (on push to main only)
+      - name: Deploy Allure report to GitHub Pages
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-report
+          force_orphan: true
+          allow_empty_commit: true
