@@ -5,13 +5,7 @@ module.exports = defineConfig({
     supportFile: 'cypress/support/index.ts',
     baseUrl: 'https://qa-practice.netlify.app',
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
-    reporter: 'cypress-multi-reporters',
-    reporterOptions: {
-      // Combine spec output with Allure results
-      reporterEnabled: 'spec, @shelex/allure-plugin',
-      allureReporterEnabled: true,
-      allureResultsDir: 'cypress/results/allure-results'
-    },
+    reporter: 'spec',
     setupNodeEvents(on, config) {
       // initialize allure plugin using the writer interface
       const allureWriter = require('@shelex/cypress-allure-plugin/writer');
