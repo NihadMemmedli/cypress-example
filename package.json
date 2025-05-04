@@ -24,7 +24,7 @@
   "homepage": "https://github.com/NihadMemmedli/cypress-example#readme",
   "description": "",
   "devDependencies": {
-    "@bahmutov/cypress-esbuild-preprocessor": "^3.8.1",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.4",
     "@faker-js/faker": "^9.7.0",
     "@shelex/cypress-allure-plugin": "^2.41.1",
     "@types/chai": "^5.2.1",
@@ -37,7 +37,7 @@
     "cypress": "^14.3.2",
     "cypress-file-upload": "^5.0.8",
     "cypress-multi-reporters": "^1.5.0",
-    "esbuild-plugin-alias": "^1.6.3",
+    "esbuild-plugin-alias": "^0.2.1",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-cypress": "^2.15.2",
