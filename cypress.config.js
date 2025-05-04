@@ -7,7 +7,10 @@ module.exports = defineConfig({
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
     reporter: 'cypress-multi-reporters',
     reporterOptions: {
-      reporterEnabled: 'spec'
+      // Combine spec output with Allure results
+      reporterEnabled: 'spec, @shelex/allure-plugin',
+      allureReporterEnabled: true,
+      allureResultsDir: 'cypress/results/allure-results'
     },
     setupNodeEvents(on, config) {
       // initialize allure plugin using the writer interface
@@ -53,6 +56,8 @@ module.exports = defineConfig({
 
     // Feature flags for tests
     retryOnNetworkFailure: true,
-    logFailedRequests: true
+    logFailedRequests: true,
+    allure: true,
+    allureResultsPath: 'cypress/results/allure-results'
   }
 }); 
