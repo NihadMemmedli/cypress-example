@@ -17,6 +17,12 @@
     "allowJs": false,
     "checkJs": false,
     "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "@support/*": ["cypress/support/*"],
+      "@fixtures/*": ["cypress/fixtures/*"],
+      "@e2e/*": ["cypress/e2e/*"]
+    },
     "types": ["cypress", "node", "mocha", "chai"]
   },
   "include": [

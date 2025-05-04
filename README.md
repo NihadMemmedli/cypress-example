@@ -242,8 +242,26 @@ Generic helpers (e.g., date/time formatters)
 ## TypeScript Integration
 
 - All support code (`.ts`) and specs (`.cy.ts`) are compiled by `tsc`.
-- ESLint uses `@typescript-eslint` parser and plugin.
-- Prettier ensures consistent formatting.
+- We now use [esbuild preprocessor](https://github.com/bahmutov/cypress-esbuild-preprocessor) with path aliases:
+```jsonc
+// tsconfig.json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@support/*": ["cypress/support/*"],
+      "@fixtures/*": ["cypress/fixtures/*"],
+      "@e2e/*": ["cypress/e2e/*"]
+    }
+  }
+}
+```
+- Import using aliases in your specs and page objects:
+```ts
+import EcommercePage from '@support/page-objects/ecommerce';
+import fileUpload from '@fixtures/fileUpload.json';
+```
+- The Cypress config (`cypress.config.ts`) registers the esbuild bundler under `on('file:preprocessor')` so aliases resolve at runtime.
 
 ---
 

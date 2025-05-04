@@ -1,4 +1,7 @@
 import { defineConfig } from 'cypress';
+import path from 'path';
+import createBundler from '@bahmutov/cypress-esbuild-preprocessor';
+import alias from 'esbuild-plugin-alias';
 
 export default defineConfig({
   e2e: {
@@ -10,6 +13,17 @@ export default defineConfig({
       // initialize Allure plugin
       const allureWriter = require('@shelex/cypress-allure-plugin/writer');
       allureWriter(on, config);
+
+      // Register the esbuild preprocessor for TS with alias resolution
+      on('file:preprocessor', createBundler({
+        plugins: [
+          alias({
+            '@support': path.resolve(__dirname, 'cypress/support'),
+            '@fixtures': path.resolve(__dirname, 'cypress/fixtures'),
+            '@e2e': path.resolve(__dirname, 'cypress/e2e'),
+          }),
+        ],
+      }));
 
       // configure browser launch options
       on('before:browser:launch', (browser, launchOptions) => {
