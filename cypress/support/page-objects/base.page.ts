@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+/// <reference path="../index.d.ts" />
 import { ECOMMERCE, LOGIN } from '../selectors';
 
 class BasePage {

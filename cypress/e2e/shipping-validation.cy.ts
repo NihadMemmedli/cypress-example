@@ -44,7 +44,8 @@ describe('Shipping Form Stepwise Validation', () => {
     page.verifyOrderSuccess({
       street: '123 Test St',
       city: 'Test City',
-      country: 'United States of America'
+      country: 'United States of America',
+      phone: '123-456-7890'
     });
   });
 }); 

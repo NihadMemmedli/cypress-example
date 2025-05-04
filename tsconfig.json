@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "typeRoots": ["node_modules/@types", "cypress/support"],
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "target": "ES6",
@@ -16,10 +17,11 @@
     "allowJs": false,
     "checkJs": false,
     "moduleResolution": "node",
-    "types": ["cypress", "node", "cypress-file-upload", "mocha", "chai"]
+    "types": ["cypress", "node", "mocha", "chai"]
   },
   "include": [
     "cypress/**/*.ts",
+    "cypress/**/*.d.ts",
     "cypress/**/*.tsx",
     "src/**/*.ts",
     "src/**/*.tsx"

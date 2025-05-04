@@ -57,7 +57,10 @@ export const SHIPPING = {
 export const FILE_UPLOAD = {
   FILE_INPUT: 'input[type="file"], [class*="file-input"]',
   SUBMIT_BUTTON: 'button[type="submit"], [class*="upload-button"], button:contains("Upload"), button:contains("Submit")',
-  SUCCESS_MESSAGE: '.success-message, .alert-success, [class*="success"], div:contains("Successfully uploaded")'
+  SUCCESS_MESSAGE: '.success-message, .alert-success, [class*="success"], div:contains("Successfully uploaded")',
+  ERROR_MESSAGE: '.error-message, .alert-danger, .upload-error, [data-testid="error-message"]',
+  FILE_INFO: '.file-info, .uploaded-file-info, .file-name, [data-testid="file-info"]',
+  RESPONSE_MESSAGE: '#file_upload_response'
 };
 
 // Common UI Elements
