@@ -23,8 +23,8 @@
   "homepage": "https://github.com/NihadMemmedli/cypress-example#readme",
   "description": "",
   "devDependencies": {
-    "cypress-multi-reporters": "^1.5.0",
-    "@shelex/allure-mocha": "^2.0.0",
+    "mocha-multi-reporters": "^1.5.0",
+    "allure-mocha": "^2.0.0",
     "@shelex/cypress-allure-plugin": "^3.12.0",
     "allure-commandline": "^2.13.8",
     "@faker-js/faker": "^9.7.0",
