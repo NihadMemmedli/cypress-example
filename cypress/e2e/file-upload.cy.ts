@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
-import FileUploadPage from '../support/page-objects/file-upload';
-import fileUpload from '../fixtures/fileUpload.json';
+import FileUploadPage from '@support/page-objects/file-upload';
+import fileUpload from '@fixtures/fileUpload.json';
 
 describe('File Upload Functionality', () => {
   beforeEach(() => {

@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-import EcommercePage from '../support/page-objects/ecommerce';
+import EcommercePage from '@support/page-objects/ecommerce';
 
 describe('Shipping Form Stepwise Validation', () => {
   const page = new EcommercePage();

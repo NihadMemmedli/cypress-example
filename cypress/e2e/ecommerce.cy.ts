@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-import EcommercePage from '../support/page-objects/ecommerce';
+import EcommercePage from '@support/page-objects/ecommerce';
 
 describe('E-commerce Auth & Order Flow', () => {
   let page: EcommercePage;
