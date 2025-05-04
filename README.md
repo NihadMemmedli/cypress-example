@@ -44,8 +44,8 @@ Typical test flows:
 
 ## Prerequisites
 
-- Node.js v14 or later
-- npm v6 or later (or Yarn)
+- Node.js v18 or later (required for Cypress v14 and Faker)
+- npm v9 or later (or Yarn)
 
 Verify:
 
@@ -99,10 +99,13 @@ Cypress settings are defined in `cypress.config.js`:
 - **`baseUrl`**: Default URL for tests (set to QA practice demo)
 - **`supportFile`**: Path to bootstrap file (`cypress/support/index.ts`)
 - **Timeouts**: `defaultCommandTimeout`, `pageLoadTimeout`, etc.
-- **`specPattern`**: Glob pattern for test spec files (`cypress/e2e/**/*.cy.ts`)
+- **`specPattern`**: Glob pattern for spec files (`cypress/e2e/**/*.cy.{ts,tsx}`)
+- **Reporter**: We now use the built-in `spec` reporter; Allure results are generated via the Allure plugin.
 - **`env`**:
   - `ecommerceUrl`: route for e-commerce auth page
   - `fileUploadUrl`: route for file upload page
+  - **`allure`**: set to `true` to activate Allure plugin
+  - **`allureResultsPath`**: path to result JSON files (default `cypress/results/allure-results`)
 
 Edit these settings to match your application under test.
 
@@ -251,33 +254,37 @@ Integrate these commands in your CI pipeline to enforce quality.
 
 ## Reporting
 
-This framework captures test results in multiple formats:
-
-- **JUnit XML**: Generated to `cypress/results/*.xml` for CI pipelines and test insights.
-- **Allure**: Rich HTML reports via the Allure adapter.
+This framework integrates Allure reporting via `@shelex/cypress-allure-plugin`.
 
 ### Local Allure Report
 
-1. Install Allure CLI (if not already):
+1. Install the Allure CLI if you haven't yet:
    ```bash
    npm install -g allure-commandline --save-dev
    ```
-2. Run tests locally:
+2. Run tests locally (Allure plugin will write JSON files):
    ```bash
    npm run cy:run
    ```
-3. Generate and open the report:
+3. Generate and view the report:
    ```bash
+   # one-shot server:
    allure serve cypress/results/allure-results
+
+   # or generate static HTML:
+   allure generate cypress/results/allure-results --clean -o allure-report
+   # then open in browser:
+   open allure-report/index.html
    ```
 
-### CI Artifact
-GitHub Actions uploads:
+### CI Artifacts & GitHub Pages
 
-- **JUnit** (`junit-results` artifact)
-- **Allure** (`allure-results` artifact)
+- **Artifact**: The GitHub Actions workflow uploads the HTML report directory (`allure-report`) under **Artifacts → allure-report**. You can download and view it locally.
+- **GitHub Pages**: On `push` to `main`, the report is also deployed to GitHub Pages at:
 
-You can download `allure-results` from the workflow run and generate the HTML report with `allure serve` locally.
+  https://NihadMemmedli.github.io/cypress-example/
+
+You can browse the live HTML report at that URL.
 
 ---
 
