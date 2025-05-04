@@ -26,29 +26,40 @@ jobs:
       - name: Install NPM dependencies
         run: npm ci
 
-      # 4. Run Cypress tests
+      # 4. Prepare Allure results folder
+      - name: Prepare Allure results directory
+        run: mkdir -p cypress/results/allure-results
+
+      # 5. Run Cypress tests with Allure enabled
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
+        env:
+          allure: true
+          allureResultsPath: cypress/results/allure-results
         with:
           start: npm start       # if you need a web server
           wait-on: 'http://localhost:3000'
           command: npm run cy:run
 
-      # 5. Generate Allure HTML report (includes history)
+      # 6. Load previous Allure history for report continuity
       - name: Load previous Allure history
-        uses: actions/checkout@v4
         if: always()
+        uses: actions/checkout@v4
         with:
           ref: gh-pages
           path: gh-pages
 
       - name: Generate Allure report
-        run: npx allure generate cypress/results/allure-results --clean -o allure-report
+        run: |
+          npx allure generate cypress/results/allure-results --clean -o allure-report
+          # Copy previous history into the new report
+          mkdir -p allure-report/history
+          cp -r gh-pages/history/* allure-report/history/ || true
 
-      # 6. Publish to GitHub Pages
+      # 7. Publish to GitHub Pages
       - name: Deploy Allure report to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
         if: always()
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
