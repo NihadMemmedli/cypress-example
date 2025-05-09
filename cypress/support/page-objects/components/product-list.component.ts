@@ -28,9 +28,7 @@ class ProductListComponent {
    */
   getCartItemCount(): Cypress.Chainable<JQuery<HTMLElement>> {
     // Select only the visible cart quantity badge (exclude hidden elements)
-    return cy.get(ECOMMERCE.CART_QUANTITY)
-      .filter(':visible')
-      .first();
+    return cy.get(ECOMMERCE.CART_QUANTITY).filter(':visible').first();
   }
 
   /**
@@ -53,9 +51,7 @@ class ProductListComponent {
     this.getShopItems().each(($item, index) => {
       if (index < count) {
         // Force click the hidden add-to-cart button
-        cy.wrap($item)
-          .find(ECOMMERCE.SHOP_ITEM_BUTTON)
-          .click({ force: true });
+        cy.wrap($item).find(ECOMMERCE.SHOP_ITEM_BUTTON).click({ force: true });
         cy.log(`Added product ${index + 1} to cart`);
       }
     });
@@ -71,10 +67,12 @@ class ProductListComponent {
   addProductByIndex(index: number): ProductListComponent {
     cy.log(`Adding product at index ${index} to cart`);
 
-    this.getShopItems().eq(index).within(() => {
-      // Force click the hidden button
-      cy.get(ECOMMERCE.SHOP_ITEM_BUTTON).click({ force: true });
-    });
+    this.getShopItems()
+      .eq(index)
+      .within(() => {
+        // Force click the hidden button
+        cy.get(ECOMMERCE.SHOP_ITEM_BUTTON).click({ force: true });
+      });
 
     return this;
   }
@@ -93,15 +91,18 @@ class ProductListComponent {
       if (productFound) return false; // Exit the loop if product already found
 
       // Check if this item matches the product name we want
-      cy.wrap($item).find(ECOMMERCE.SHOP_ITEM_TITLE).invoke('text').then((text) => {
-        if (text.includes(productName)) {
-          cy.wrap($item).within(() => {
-            // Force click the hidden button
-            cy.get(ECOMMERCE.SHOP_ITEM_BUTTON).click({ force: true });
-            productFound = true;
-          });
-        }
-      });
+      cy.wrap($item)
+        .find(ECOMMERCE.SHOP_ITEM_TITLE)
+        .invoke('text')
+        .then((text) => {
+          if (text.includes(productName)) {
+            cy.wrap($item).within(() => {
+              // Force click the hidden button
+              cy.get(ECOMMERCE.SHOP_ITEM_BUTTON).click({ force: true });
+              productFound = true;
+            });
+          }
+        });
     });
 
     return this;
@@ -114,7 +115,7 @@ class ProductListComponent {
   getCartCount(): Cypress.Chainable<number> {
     return this.getCartItemCount()
       .invoke('text')
-      .then(text => {
+      .then((text) => {
         // Extract number from text like "3 items"
         const match = text.match(/\d+/);
         return match ? parseInt(match[0], 10) : 0;
@@ -132,10 +133,11 @@ class ProductListComponent {
    * @returns {Cypress.Chainable<number>} Promise resolving to the price
    */
   getItemPriceByName(productName: string): Cypress.Chainable<number> {
-    return cy.contains(ECOMMERCE.SHOP_ITEM, productName)
+    return cy
+      .contains(ECOMMERCE.SHOP_ITEM, productName)
       .find(ECOMMERCE.SHOP_ITEM_PRICE)
       .invoke('text')
-      .then(text => parseFloat(text.replace(/[$,]/g, '').trim()));
+      .then((text) => parseFloat(text.replace(/[$,]/g, '').trim()));
   }
 
   /**
@@ -143,9 +145,10 @@ class ProductListComponent {
    * @returns {Cypress.Chainable<number>} Promise resolving to the cart total
    */
   getCartTotal(): Cypress.Chainable<number> {
-    return cy.get('.cart-total-price')
+    return cy
+      .get('.cart-total-price')
       .invoke('text')
-      .then(text => parseFloat(text.replace(/[$,]/g, '').trim()));
+      .then((text) => parseFloat(text.replace(/[$,]/g, '').trim()));
   }
 }
 

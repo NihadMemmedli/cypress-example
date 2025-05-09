@@ -23,7 +23,7 @@ class BasePage {
   }
 
   elementExists(selector) {
-    return cy.get('body').then($body => $body.find(selector).length > 0);
+    return cy.get('body').then(($body) => $body.find(selector).length > 0);
   }
 }
 

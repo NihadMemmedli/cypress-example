@@ -14,21 +14,24 @@ describe('Shipping Form Stepwise Validation', () => {
 
     // 1) Submit with all fields empty -> phone popup
     page.shippingForm.getSubmitOrderButton().click();
-    page.shippingForm.getPhoneField()
+    page.shippingForm
+      .getPhoneField()
       .invoke('prop', 'validationMessage')
       .should('equal', requiredMessage);
 
     // 2) Fill phone, blur, submit -> street popup
     page.shippingForm.getPhoneField().type('123-456-7890').blur();
     page.shippingForm.getSubmitOrderButton().click();
-    page.shippingForm.getStreetField()
+    page.shippingForm
+      .getStreetField()
       .invoke('prop', 'validationMessage')
       .should('equal', requiredMessage);
 
     // 3) Fill street, blur, submit -> city popup
     page.shippingForm.getStreetField().clear().type('123 Test St').blur();
     page.shippingForm.getSubmitOrderButton().click();
-    page.shippingForm.getCityField()
+    page.shippingForm
+      .getCityField()
       .invoke('prop', 'validationMessage')
       .should('equal', requiredMessage);
 
@@ -45,7 +48,7 @@ describe('Shipping Form Stepwise Validation', () => {
       street: '123 Test St',
       city: 'Test City',
       country: 'United States of America',
-      phone: '123-456-7890'
+      phone: '123-456-7890',
     });
   });
-}); 
+});

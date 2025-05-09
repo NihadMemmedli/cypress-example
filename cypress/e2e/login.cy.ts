@@ -19,8 +19,8 @@ describe('Login Negative Scenarios', () => {
 
   const scenarios = [
     { desc: 'both fields empty', email: '', pass: ' ' },
-    { desc: 'missing password',    email: 'admin@admin.com', pass: ' ' },
-    { desc: 'wrong credentials',   email: 'admin@admin.com', pass: 'wrongpassword' }
+    { desc: 'missing password', email: 'admin@admin.com', pass: ' ' },
+    { desc: 'wrong credentials', email: 'admin@admin.com', pass: 'wrongpassword' },
   ];
 
   scenarios.forEach(({ desc, email, pass }) => {
@@ -29,4 +29,4 @@ describe('Login Negative Scenarios', () => {
       loginForm.verifyErrorMessage(BAD_CREDENTIALS_MSG);
     });
   });
-}); 
+});

@@ -75,11 +75,9 @@ class LoginFormComponent {
    * @param expected - RegExp to match the input.validationMessage
    */
   validateEmailPopup(expected: RegExp): this {
-    this.getEmailField()
-      .invoke('prop', 'validationMessage')
-      .should('match', expected);
+    this.getEmailField().invoke('prop', 'validationMessage').should('match', expected);
     return this;
   }
 }
 
-export default LoginFormComponent; 
+export default LoginFormComponent;

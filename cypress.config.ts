@@ -6,6 +6,7 @@ import env from './cypress.env.json';
 
 export default defineConfig({
   e2e: {
+    projectId: "j9xy1x",
     supportFile: 'cypress/support/index.ts',
     baseUrl: 'https://qa-practice.netlify.app',
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',

@@ -71,7 +71,7 @@ class ShippingFormComponent {
     // Use centralized common error selector
     return cy.get(COMMON.ERROR_MESSAGE);
   }
-  
+
   /**
    * Fill shipping form with address details
    * @param {Object} address - Address details
@@ -81,25 +81,27 @@ class ShippingFormComponent {
    * @param {string} address.country - Country
    * @returns {ShippingFormComponent} - This component for chaining
    */
-  fillForm(address: { phone?: string; street?: string; city?: string; country?: string } = {}): ShippingFormComponent {
-    const { 
-      phone = '1234567890', 
-      street = '123 Test Street', 
-      city = 'Test City', 
-      country = 'United States of America'
+  fillForm(
+    address: { phone?: string; street?: string; city?: string; country?: string } = {}
+  ): ShippingFormComponent {
+    const {
+      phone = '1234567890',
+      street = '123 Test Street',
+      city = 'Test City',
+      country = 'United States of America',
     } = address;
-    
+
     cy.log('Filling shipping form');
-    
+
     // Use standard .clear().type() and .select()
     this.getPhoneField().clear().type(phone);
     this.getStreetField().clear().type(street);
     this.getCityField().clear().type(city);
     this.getCountryDropdown().select(country);
-    
+
     return this;
   }
-  
+
   /**
    * Submit the shipping form
    * @returns {ShippingFormComponent} - This component for chaining
@@ -112,10 +114,10 @@ class ShippingFormComponent {
 
     // Wait for the specific success/confirmation message element with timeout
     this.getSuccessMessage().should('be.visible', { timeout: 10000 });
-    
+
     return this;
   }
-  
+
   /**
    * Fill and submit the shipping form in one step
    * @param {Object} address - Address details
@@ -124,7 +126,7 @@ class ShippingFormComponent {
   fillAndSubmit(address: object = {}): ShippingFormComponent {
     return this.fillForm(address).submit();
   }
-  
+
   /**
    * Verify form validation errors
    * @returns {ShippingFormComponent} - This component for chaining
@@ -137,26 +139,26 @@ class ShippingFormComponent {
       .invoke('prop', 'validationMessage')
       .should('be.a', 'string')
       .and('not.be.empty');
-    
+
     return this;
   }
-  
+
   /**
    * Verify form fields are visible and enabled
    * @returns {ShippingFormComponent} - This component for chaining
    */
   verifyFormFields(): ShippingFormComponent {
     cy.log('Verifying form fields');
-    
+
     this.getPhoneField().should('be.visible').and('be.enabled');
     this.getStreetField().should('be.visible').and('be.enabled');
     this.getCityField().should('be.visible').and('be.enabled');
     this.getCountryDropdown().should('be.visible').and('not.be.disabled');
     this.getSubmitOrderButton().should('be.visible').and('be.enabled');
-    
+
     return this;
   }
-  
+
   /**
    * Verify order success message displays correct shipping address
    * @param {{street: string, city: string, country: string}} expected
@@ -166,7 +168,7 @@ class ShippingFormComponent {
       .should('be.visible')
       .find('b')
       .should('have.length', 2)
-      .then($bs => {
+      .then(($bs) => {
         // Second <b> contains full shipping info
         const infoText = $bs.eq(1).text().trim().replace(/\.$/, '');
         const expectedInfo = `${expected.street}, ${expected.city} - ${expected.country}`;

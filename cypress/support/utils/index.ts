@@ -10,7 +10,7 @@ import { COMMON } from '../selectors';
  * Retries reading document until no elements match the spinner selector.
  */
 export const waitForLoading = (timeout = 10000): Cypress.Chainable<Document> => {
-  return cy.document({ timeout }).should(doc => {
+  return cy.document({ timeout }).should((doc) => {
     const count = doc.querySelectorAll(COMMON.LOADING_INDICATOR).length;
     expect(count, 'spinner still present').to.equal(0);
   });

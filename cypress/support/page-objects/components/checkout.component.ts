@@ -27,7 +27,7 @@ class CheckoutComponent {
    */
   proceedToCheckout(): CheckoutComponent {
     cy.log('Proceeding to checkout');
-    cy.safeClick(this.getCheckoutButton())
+    cy.safeClick(this.getCheckoutButton());
     return this;
   }
 

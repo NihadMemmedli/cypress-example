@@ -1,6 +1,6 @@
 /**
  * Data Generator Module
- * 
+ *
  * Uses Faker.js to generate realistic test data for different scenarios
  */
 
@@ -19,7 +19,7 @@ export const UserGenerator = {
       email: faker.internet.email(),
       password: faker.internet.password({ length: 10, memorable: true }),
       firstName: faker.person.firstName(),
-      lastName: faker.person.lastName()
+      lastName: faker.person.lastName(),
     };
   },
 
@@ -30,7 +30,7 @@ export const UserGenerator = {
     return {
       email: 'admin@admin.com',
       password: 'admin123',
-      role: 'admin'
+      role: 'admin',
     };
   },
 
@@ -42,7 +42,7 @@ export const UserGenerator = {
     return {
       email: `customer.${faker.number.int({ min: 1000, max: 9999 })}@example.com`,
       password: 'customer123',
-      role: 'customer'
+      role: 'customer',
     };
   },
 
@@ -53,9 +53,9 @@ export const UserGenerator = {
   invalid(): object {
     return {
       email: `invalid_${faker.string.alphanumeric(8)}@example.com`,
-      password: 'wrongpassword123'
+      password: 'wrongpassword123',
     };
-  }
+  },
 };
 
 /**
@@ -78,8 +78,8 @@ export const AddressGenerator = {
         'United Kingdom',
         'Australia',
         'Germany',
-        'France'
-      ])
+        'France',
+      ]),
     };
   },
 
@@ -94,7 +94,7 @@ export const AddressGenerator = {
       city: faker.location.city(),
       state: faker.location.state(),
       postalCode: faker.location.zipCode('#####'),
-      country: 'United States of America'
+      country: 'United States of America',
     };
   },
 
@@ -110,8 +110,8 @@ export const AddressGenerator = {
         'Leave at door',
         'Signature required',
         'Call upon arrival',
-        'Deliver to back door'
-      ])
+        'Deliver to back door',
+      ]),
     };
-  }
-}; 
+  },
+};

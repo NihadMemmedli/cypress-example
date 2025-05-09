@@ -1,6 +1,6 @@
 // Centralized types for Cypress tests and page objects
 
-import { UserGenerator } from "../data";
+import { UserGenerator } from '../data';
 
 // Import UserGenerator to extract User type
 
@@ -14,4 +14,4 @@ export interface ShippingAddress {
   country: string;
   zip?: string;
   phone: string;
-} 
+}

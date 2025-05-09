@@ -9,7 +9,8 @@
     "testHeaded": "npx cypress run --browser chrome",
     "lint": "eslint \"cypress/**/*.{js,ts,tsx}\" --max-warnings=0",
     "format": "prettier --write \"cypress/**/*.{js,ts,tsx,json,css,md}\"",
-    "docker:test": "docker build -t cypress-example . && docker run --rm cypress-example"
+    "docker:test": "docker build -t cypress-example . && docker run --rm cypress-example",
+    "cy:record": "dotenv -e .env -- sh -c 'npx cypress run --record --key $CYPRESS_RECORD_KEY'"
   },
   "repository": {
     "type": "git",
@@ -34,9 +35,11 @@
     "@typescript-eslint/parser": "^5.62.0",
     "allure-commandline": "^2.13.8",
     "allure-mocha": "^2.0.0",
+    "cross-env": "^7.0.3",
     "cypress": "^14.3.2",
     "cypress-file-upload": "^5.0.8",
     "cypress-multi-reporters": "^1.5.0",
+    "dotenv-cli": "^8.0.0",
     "esbuild-plugin-alias": "^0.2.1",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.2",

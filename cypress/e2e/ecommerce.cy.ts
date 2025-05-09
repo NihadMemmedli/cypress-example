@@ -20,7 +20,7 @@ describe('E-commerce Auth & Order Flow', () => {
       // Add all products and verify cart total
       page.addSpecificProductsToCart(products);
       page.verifyCartTotalMatchesProducts(products);
-      
+
       // Proceed to checkout and complete order
       page.proceedToCheckout();
       page.verifyShippingFormVisible();
@@ -30,16 +30,14 @@ describe('E-commerce Auth & Order Flow', () => {
   });
 
   it('validates form fields with empty data', () => {
-    cy.fixture('happyPath').then(({  user, shipping  }) => {
+    cy.fixture('happyPath').then(({ user, shipping }) => {
       page.visit();
       page.login(user);
       page.verifyProductListLoaded();
-      page.addRandomProductsToCart(1)
-          .proceedToCheckout();
+      page.addRandomProductsToCart(1).proceedToCheckout();
       page.shippingForm.getSubmitOrderButton().click();
       page.shippingForm.verifyValidationErrors();
-      page.completeShipping(shipping)
-          .verifyOrderSuccess(shipping);
+      page.completeShipping(shipping).verifyOrderSuccess(shipping);
     });
   });
 
@@ -97,17 +95,13 @@ describe('E-commerce Auth & Order Flow', () => {
       page.addToCart(products[0]);
 
       // change quantity to 4 and trigger update
-      cy.get('.cart-quantity-input')
-        .clear()
-        .type('4')
-        .should('have.value', '4')
-        .blur();
+      cy.get('.cart-quantity-input').clear().type('4').should('have.value', '4').blur();
 
       // verify total = unit price * 4
-      page.productList.getItemPriceByName(products[0]).then(price => {
+      page.productList.getItemPriceByName(products[0]).then((price) => {
         const expectedTotal = price * 4;
         page.productList.getCartTotal().should('equal', expectedTotal);
       });
     });
   });
-}); 
+});

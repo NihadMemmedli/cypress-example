@@ -72,7 +72,7 @@ class EcommercePage extends BasePage {
       this.productList.addProductsToCart(productsOrCount);
     } else if (Array.isArray(productsOrCount)) {
       // Add specific products by name or index
-      productsOrCount.forEach(product => {
+      productsOrCount.forEach((product) => {
         if (typeof product === 'number') {
           this.productList.addProductByIndex(product);
         } else {
@@ -160,7 +160,7 @@ class EcommercePage extends BasePage {
    */
   addSpecificProductsToCart(products: Array<string | number>): this {
     cy.log(`Add specific products to cart: ${products.join(', ')}`);
-    products.forEach(product => {
+    products.forEach((product) => {
       this.addToCart(product);
     });
     return this;
@@ -193,8 +193,8 @@ class EcommercePage extends BasePage {
     cy.log(`Verifying cart total for products: ${products.join(', ')}`);
     // Accumulate product prices
     let expectedTotal = 0;
-    products.forEach(name => {
-      this.productList.getItemPriceByName(name).then(price => {
+    products.forEach((name) => {
+      this.productList.getItemPriceByName(name).then((price) => {
         expectedTotal += price;
       });
     });
@@ -205,7 +205,6 @@ class EcommercePage extends BasePage {
     return this;
   }
 }
-
 
 // Export the class itself, not an instance
 export default EcommercePage;

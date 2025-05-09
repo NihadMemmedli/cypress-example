@@ -9,30 +9,22 @@ describe('File Upload Functionality', () => {
 
   it('should upload a text file successfully', () => {
     const { valid } = fileUpload;
-    FileUploadPage
-      .uploadFile(valid.fileName)
+    FileUploadPage.uploadFile(valid.fileName)
       .verifyFileName(valid.fileName)
-      .verifySuccessMessageContains(
-        `You have successfully uploaded "${valid.fileName}"`
-      );
+      .verifySuccessMessageContains(`You have successfully uploaded "${valid.fileName}"`);
   });
 
   it('should show empty file upload message when none is selected', () => {
-    FileUploadPage
-      .submitWithoutFile()
-      .verifySuccessMessageContains(
-        'You have successfully uploaded ""'
-      );
+    FileUploadPage.submitWithoutFile().verifySuccessMessageContains(
+      'You have successfully uploaded ""'
+    );
   });
 
   it('should handle large file upload (edge case)', () => {
     const { large } = fileUpload;
     // Generate and upload a 1MB blob on the fly
-    FileUploadPage
-      .uploadGeneratedFile(large.fileName, 2048)
+    FileUploadPage.uploadGeneratedFile(large.fileName, 2048)
       .verifyFileName(large.fileName)
-      .verifySuccessMessageContains(
-        `You have successfully uploaded "${large.fileName}"`
-      );
+      .verifySuccessMessageContains(`You have successfully uploaded "${large.fileName}"`);
   });
-}); 
+});
