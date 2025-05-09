@@ -145,19 +145,32 @@ Adjust `cypress.env.json` values to fit your target environment (e.g., staging, 
 
 ## Available Scripts
 
-| Script            | Command                     | Description                                                 |
-|-------------------|-----------------------------|-------------------------------------------------------------|
-| Interactive GUI   | `npm run cy:open`           | Launches the Cypress Test Runner UI                        |
-| Headless Run      | `npm run cy:run`            | Runs all specs headlessly in Chrome                        |
-| Lint              | `npm run lint`              | Runs ESLint on all TS and JS files under `cypress/`        |
-| Format            | `npm run format`            | Applies Prettier formatting to code files                  |
-| Docker Test       | `npm run docker:test`        | Builds Docker image and runs Cypress tests inside Docker.    |
+| Script                | Command                                         | Description                                                        |
+|-----------------------|-------------------------------------------------|--------------------------------------------------------------------|
+| Interactive GUI       | `npm run cy:open`                               | Launches the Cypress Test Runner UI                                 |
+| Headless Run          | `npm run cy:run`                                | Runs all specs headlessly in Chrome                                 |
+| Lint                  | `npm run lint`                                  | Runs ESLint on all TS and JS files under `cypress/`                 |
+| Format                | `npm run format`                                | Applies Prettier formatting to code files                           |
+| Docker Test           | `npm run docker:test`                           | Builds Docker image and runs Cypress tests inside Docker.           |
+| Cypress Cloud Record  | `npm run cy:record`                             | Runs tests and records results to Cypress Cloud (uses .env key)     |
 
 You can also run individual specs:
 
 ```bash
 npx cypress run --spec "cypress/e2e/login.cy.ts"
 ```
+
+---
+
+## .env Usage for Cypress Cloud
+
+To record test results to Cypress Cloud, add your record key to a `.env` file in the project root:
+
+```
+CYPRESS_RECORD_KEY=your-cypress-cloud-key-here
+```
+
+This is required for `npm run cy:record` and for CI recording.
 
 ---
 
@@ -307,12 +320,13 @@ Integrate these commands in your CI pipeline to enforce quality.
 
 ## CI & GitHub Actions
 
-- **CI**: The GitHub Actions workflow uploads the HTML report directory (`allure-report`) under **Artifacts → allure-report**. You can download and view it locally.
-- **GitHub Pages**: On `push` to `main`, the report is also deployed to GitHub Pages at:
+- **Allure Reporting**: The GitHub Actions workflow in `.github/workflows/e2e.yml` uploads the HTML report directory (`allure-report`) under **Artifacts → allure-report**. You can download and view it locally. On `push` to `main`, the report is also deployed to GitHub Pages at:
 
   https://NihadMemmedli.github.io/cypress-example/
 
-You can browse the live HTML report at that URL.
+- **Cypress Cloud Dashboard**: The `.github/workflows/cypress-dashboard.yml` workflow runs tests in parallel and records results to Cypress Cloud if the `CYPRESS_RECORD_KEY` secret is set in your GitHub repository settings.
+
+You can browse the live HTML report at the above URL, and view test results in the Cypress Cloud dashboard.
 
 ---
 
@@ -365,4 +379,4 @@ You can browse the live HTML report at that URL.
 
 ## License
 
-This project is licensed under the ISC License. See [LICENSE](LICENSE) for details. 
+This project is licensed under the ISC License. See [LICENSE](LICENSE) for details.
